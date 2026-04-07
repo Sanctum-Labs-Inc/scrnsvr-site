@@ -4,7 +4,7 @@
     {
       "name": "sanctum-dev",
       "runtimeExecutable": "/usr/local/bin/node",
-      "runtimeArgs": ["/usr/local/bin/npx", "vite", "--port", "5173"],
+      "runtimeArgs": ["/usr/local/bin/npx", "astro", "dev", "--port", "5173"],
       "port": 5173,
       "env": {
         "PATH": "/usr/local/bin:/usr/bin:/bin"
