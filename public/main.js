@@ -1,4 +1,4 @@
-// ── Sanctum: Section-Aware Generative Background ──
+// ── ScreenSavor: Section-Aware Generative Background ──
 
 // ── SKETCH DEFINITIONS ──
 // Each sketch renders full-screen into #bg-canvas
