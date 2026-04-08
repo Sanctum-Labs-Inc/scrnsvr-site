@@ -361,14 +361,32 @@ document.querySelectorAll('section[data-sketch]').forEach(section => {
   sectionObserver.observe(section);
 });
 
-// ── Scroll fade-in ──
+// ── Scroll fade-in with stagger ──
 
 const fadeObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      // Stagger children
+      const children = entry.target.querySelectorAll('.stagger-child');
+      children.forEach((child, i) => {
+        child.style.transitionDelay = `${i * 100}ms`;
+        child.classList.add('visible');
+      });
     }
   });
 }, { threshold: 0.15 });
 
 document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+// ── Spotlight border on product cards ──
+
+document.querySelectorAll('.product-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--spotlight-x', `${x}px`);
+    card.style.setProperty('--spotlight-y', `${y}px`);
+  });
+});

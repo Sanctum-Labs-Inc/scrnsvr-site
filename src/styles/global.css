@@ -1,21 +1,60 @@
-/* ── ScreenSavor Design System ── */
+/* ── ScreenSavor Design System · Dark Premium (OLED) ── */
 
 :root {
-  --bg-deep: #0a0a0f;
+  /* Backgrounds — OLED true black with faint blue tint */
+  --bg-deep: #06060c;
+  --bg-deep: oklch(0.05 0.005 260);
   --bg-surface: rgba(255, 255, 255, 0.03);
+  --bg-surface: oklch(0.1 0.008 260 / 0.5);
   --bg-surface-hover: rgba(255, 255, 255, 0.05);
-  --text-primary: rgba(255, 255, 255, 0.85);
-  --text-secondary: rgba(255, 255, 255, 0.5);
-  --text-tertiary: rgba(255, 255, 255, 0.3);
-  --gold: #c4a265;
-  --gold-dim: rgba(196, 162, 101, 0.4);
-  --teal: #2a6b6b;
-  --teal-dim: rgba(42, 107, 107, 0.3);
-  --violet: #6b5b8a;
-  --violet-dim: rgba(107, 91, 138, 0.3);
+  --bg-surface-hover: oklch(0.12 0.01 260 / 0.6);
+  --bg-glass: rgba(10, 12, 20, 0.45);
+  --bg-glass: oklch(0.08 0.006 260 / 0.45);
+
+  /* Text — warm-tinted neutrals */
+  --text-primary: #ede8df;
+  --text-primary: oklch(0.93 0.01 80);
+  --text-secondary: #9b9590;
+  --text-secondary: oklch(0.68 0.01 80);
+  --text-tertiary: #625d58;
+  --text-tertiary: oklch(0.45 0.008 80);
+
+  /* Accent — desaturated amber (<80% saturation) */
+  --accent: #c4a265;
+  --accent: oklch(0.72 0.12 75);
+  --accent-dim: rgba(196, 162, 101, 0.35);
+  --accent-dim: oklch(0.72 0.12 75 / 0.35);
+  --accent-glow: rgba(196, 162, 101, 0.15);
+  --accent-glow: oklch(0.72 0.12 75 / 0.15);
+
+  /* Secondary accents */
+  --teal: #2d8a8a;
+  --teal: oklch(0.55 0.1 185);
+  --teal-dim: rgba(45, 138, 138, 0.25);
+  --teal-dim: oklch(0.55 0.1 185 / 0.25);
+  --violet: #7a6a9e;
+  --violet: oklch(0.55 0.08 300);
+  --violet-dim: rgba(122, 106, 158, 0.25);
+  --violet-dim: oklch(0.55 0.08 300 / 0.25);
+
+  /* Borders */
   --border: rgba(255, 255, 255, 0.06);
+  --border: oklch(0.93 0.01 80 / 0.06);
+  --border-glow: rgba(196, 162, 101, 0.25);
+  --border-glow: oklch(0.72 0.12 75 / 0.25);
+
+  /* Shadows — tinted, not pure black */
+  --shadow-card: 0 8px 32px rgba(6, 6, 20, 0.6);
+  --shadow-card-hover: 0 16px 48px rgba(6, 6, 20, 0.8);
+
+  /* Fonts */
   --font-serif: 'Cormorant Garamond', 'Georgia', serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: cubic-bezier(0.22, 1.36, 0.36, 1);
 }
 
 *, *::before, *::after {
@@ -31,12 +70,25 @@ html {
 }
 
 body {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  line-height: 1.8;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
   color: var(--text-primary);
   background: var(--bg-deep);
   overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
 }
 
 /* ── Background Canvas ── */
@@ -64,7 +116,7 @@ body {
 /* ── Sections ── */
 
 section {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,19 +127,23 @@ section {
 }
 
 .section-inner {
-  max-width: 720px;
+  max-width: 680px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 3rem;
-  border-radius: 8px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid oklch(0.93 0.01 80 / 0.08);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: var(--shadow-card);
 }
 
-/* ── Scroll Fade ── */
+/* ── Scroll Fade + Stagger ── */
 
 .fade-in {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
 }
 
 .fade-in.visible {
@@ -95,10 +151,21 @@ section {
   transform: translateY(0);
 }
 
+.stagger-child {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
+
+.stagger-child.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ── Opening Field ── */
 
 .opening {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,10 +178,16 @@ section {
   font-family: var(--font-serif);
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 300;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text-primary);
   margin-bottom: 1.5rem;
+  animation: wordmark-glow 8s ease-in-out infinite;
+}
+
+@keyframes wordmark-glow {
+  0%, 100% { text-shadow: 0 0 40px oklch(0.72 0.12 75 / 0); }
+  50% { text-shadow: 0 0 80px oklch(0.72 0.12 75 / 0.12), 0 0 120px oklch(0.72 0.12 75 / 0.06); }
 }
 
 .tagline {
@@ -132,7 +205,7 @@ section {
   left: 50%;
   transform: translateX(-50%);
   color: var(--text-tertiary);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-family: var(--font-sans);
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -144,53 +217,120 @@ section {
   50% { opacity: 0.5; }
 }
 
-/* ── Experience Section ── */
+/* ── Section Headings ── */
 
 .experience h2,
 .products h2,
 .science h2 {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 300;
   margin-bottom: 2rem;
   color: var(--text-primary);
 }
 
+/* ── Experience Section — offset left ── */
+
+.experience {
+  align-items: flex-start;
+  padding-left: 8vw;
+}
+
 .experience p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 /* ── Products Section ── */
 
 .products .section-inner {
-  max-width: 900px;
+  max-width: 920px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  padding: 3rem 0;
 }
 
 .product-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   gap: 1.5rem;
   margin-top: 2.5rem;
+  align-items: start;
 }
 
+/* Double-bezel card shell */
 .product-card {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2.5rem 2rem;
-  background: rgba(0, 0, 0, 0.6);
-  transition: background 0.4s ease, border-color 0.4s ease;
+  position: relative;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.93 0.01 80 / 0.1),
+    oklch(0.93 0.01 80 / 0.03)
+  );
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  animation: border-breathe 6s ease-in-out infinite;
+  transition: box-shadow 0.4s var(--ease-out-expo);
+}
+
+.product-card:nth-child(2) {
+  animation-delay: -3s;
+}
+
+@keyframes border-breathe {
+  0%, 100% { box-shadow: var(--shadow-card), 0 0 0 1px oklch(0.93 0.01 80 / 0.05); }
+  50% { box-shadow: var(--shadow-card), 0 0 0 1px oklch(0.93 0.01 80 / 0.12); }
 }
 
 .product-card:hover {
-  background: rgba(0, 0, 0, 0.7);
-  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Spotlight border pseudo */
+.product-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(
+    350px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    var(--accent-glow),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+/* Inner glass panel */
+.product-card-inner {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border-radius: 19px;
+  padding: 2.5rem 2rem;
+}
+
+/* Offset second card for asymmetry */
+.product-card.card-secondary {
+  margin-top: 2.5rem;
 }
 
 .product-card h3 {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 0.5rem;
 }
@@ -198,25 +338,26 @@ section {
 .badge {
   display: inline-block;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.3em 0.8em;
-  border-radius: 3px;
+  padding: 0.35em 0.9em;
+  border-radius: 6px;
   margin-bottom: 1.25rem;
   background: var(--teal-dim);
   color: var(--teal);
-  border: 1px solid rgba(42, 107, 107, 0.2);
+  border: 1px solid oklch(0.55 0.1 185 / 0.15);
 }
 
 .badge.waitlist {
   background: var(--violet-dim);
   color: var(--violet);
-  border-color: rgba(107, 91, 138, 0.2);
+  border-color: oklch(0.55 0.08 300 / 0.15);
 }
 
 .product-card p {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
   line-height: 1.7;
@@ -228,66 +369,97 @@ section {
   display: flex;
   gap: 0;
   width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: oklch(0.06 0.005 260 / 0.6);
+  transition: border-color 300ms var(--ease-out-expo),
+              box-shadow 300ms var(--ease-out-expo);
+}
+
+.email-form:focus-within {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 24px oklch(0.72 0.12 75 / 0.1);
 }
 
 .email-form input[type="email"] {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1.25rem;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-right: none;
-  border-radius: 4px 0 0 4px;
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
   color: var(--text-primary);
   outline: none;
-  transition: border-color 0.3s ease;
 }
 
 .email-form input[type="email"]::placeholder {
   color: var(--text-tertiary);
 }
 
-.email-form input[type="email"]:focus {
-  border-color: var(--gold-dim);
-}
-
 .email-form button {
-  padding: 0.75rem 1.25rem;
+  padding: 0.875rem 1.5rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: rgba(196, 162, 101, 0.12);
-  color: var(--gold);
-  border: 1px solid var(--gold-dim);
-  border-radius: 0 4px 4px 0;
+  background: oklch(0.72 0.12 75 / 0.1);
+  color: var(--accent);
+  border: none;
+  border-left: 1px solid var(--border);
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.3s ease;
+  transition: background 160ms var(--ease-out-expo),
+              transform 100ms var(--ease-out-expo),
+              box-shadow 200ms var(--ease-out-expo);
 }
 
 .email-form button:hover {
-  background: rgba(196, 162, 101, 0.2);
+  background: oklch(0.72 0.12 75 / 0.2);
+  box-shadow: 0 0 20px oklch(0.72 0.12 75 / 0.1);
 }
 
-/* ── Science Section ── */
+.email-form button:active {
+  transform: scale(0.97);
+}
+
+.email-form button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.email-form button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Science Section — offset right ── */
+
+.science {
+  align-items: flex-end;
+  padding-right: 8vw;
+}
 
 .science p {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .science a {
-  color: var(--gold);
+  color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid var(--gold-dim);
-  transition: border-color 0.3s ease;
+  border-bottom: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 300ms var(--ease-out-expo);
 }
 
 .science a:hover {
-  border-color: var(--gold);
+  background-size: 100% 1px;
 }
 
 /* ── Footer ── */
@@ -297,14 +469,14 @@ footer {
   text-align: center;
   color: var(--text-tertiary);
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
 }
 
 footer a {
   color: var(--text-tertiary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 300ms var(--ease-out-expo);
 }
 
 footer a:hover {
@@ -315,7 +487,12 @@ footer a:hover {
 
 @media (max-width: 680px) {
   body {
-    font-size: 16px;
+    font-size: 15px;
+  }
+
+  /* Disable grain on mobile for performance */
+  body::after {
+    display: none;
   }
 
   section {
@@ -323,13 +500,24 @@ footer a:hover {
     overflow-y: auto;
   }
 
+  /* Reset offsets */
+  .experience,
+  .science {
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .section-inner {
-    padding: 1.5rem 1.25rem;
+    padding: 2rem 1.5rem;
     max-width: 100%;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .wordmark {
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
   }
 
   .product-cards {
@@ -337,8 +525,19 @@ footer a:hover {
     gap: 1rem;
   }
 
-  .product-card {
-    padding: 1.25rem;
+  .product-card.card-secondary {
+    margin-top: 0;
+  }
+
+  .product-card-inner {
+    padding: 1.5rem 1.25rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Disable spotlight on mobile (no hover) */
+  .product-card::before {
+    display: none;
   }
 
   .product-card p {
@@ -349,16 +548,15 @@ footer a:hover {
 
   .email-form {
     flex-direction: column;
-    gap: 0.5rem;
   }
 
   .email-form input[type="email"] {
-    border-right: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 0;
   }
 
   .email-form button {
-    border-radius: 4px;
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
 
   .experience h2,
@@ -370,7 +568,7 @@ footer a:hover {
 
   .experience p,
   .science p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin-bottom: 1rem;
   }
 
@@ -380,5 +578,33 @@ footer a:hover {
 
   footer {
     padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wordmark {
+    letter-spacing: 0.08em;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .section-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .product-card-inner {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* ── Reduced Motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .stagger-child {
+    transition-delay: 0ms !important;
   }
 }
