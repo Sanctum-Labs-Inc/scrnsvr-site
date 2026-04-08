@@ -372,3 +372,16 @@ const fadeObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+// ── Scroll-driven wordmark fade ──
+
+const wordmark = document.getElementById('wordmark');
+if (wordmark) {
+  window.addEventListener('scroll', () => {
+    const vh = window.innerHeight;
+    const scrollY = window.scrollY;
+    const progress = Math.min(scrollY / (vh * 0.6), 1);
+    wordmark.style.opacity = 1 - progress;
+    wordmark.style.transform = `translateY(${progress * -40}px)`;
+  }, { passive: true });
+}
