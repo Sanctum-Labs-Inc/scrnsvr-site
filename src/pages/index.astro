@@ -40,6 +40,9 @@ import Base from '../layouts/Base.astro';
         if (zoomed) return;
         zoomed = true;
 
+        // Start the sketch immediately so it's warmed up
+        startHypertorus();
+
         var circleRect = circle.getBoundingClientRect();
         var cx = circleRect.left + circleRect.width / 2;
         var cy = circleRect.top + circleRect.height / 2;
