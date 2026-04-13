@@ -13,7 +13,7 @@ function startHypertorus() {
     var isInteracting = false;
 
     p.setup = function() {
-      var cnv = p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL);
+      var cnv = p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
       cnv.parent('page-two');
       p.colorMode(p.HSB, 360, 75, 75);
       p.noStroke();
@@ -108,7 +108,7 @@ function startHypertorus() {
     };
 
     p.windowResized = function() {
-      p.resizeCanvas(p.windowWidth, p.windowHeight);
+      p.resizeCanvas(window.innerWidth, window.innerHeight);
     };
   });
 }
