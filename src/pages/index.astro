@@ -63,6 +63,24 @@ import Base from '../layouts/Base.astro';
         }, 1400);
       }
 
+      function reverseZoom() {
+        if (!zoomed) return;
+
+        // Hide the sketch
+        pageTwo.classList.remove('visible');
+
+        // After the fade-out, reverse the zoom
+        setTimeout(function() {
+          stopHypertorus();
+          overlay.style.transform = 'scale(1)';
+          zoomed = false;
+        }, 500);
+      }
+
+      window.addEventListener('popstate', function() {
+        reverseZoom();
+      });
+
       logo.addEventListener('click', function(e) {
         e.stopPropagation();
         e.preventDefault();

@@ -1,6 +1,13 @@
 // Hypertorus — p5.js instance mode
 var hypertorusInstance = null;
 
+function stopHypertorus() {
+  if (hypertorusInstance) {
+    hypertorusInstance.remove();
+    hypertorusInstance = null;
+  }
+}
+
 function startHypertorus() {
   if (hypertorusInstance) return;
   hypertorusInstance = new p5(function(p) {
