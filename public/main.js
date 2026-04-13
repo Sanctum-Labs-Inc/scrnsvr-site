@@ -310,8 +310,14 @@ function draw() {
   endShape(CLOSE);
 }
 
+function isPageTwoVisible() {
+  var pt = document.getElementById('page-two');
+  return pt && pt.classList.contains('visible');
+}
+
 function mousePressed(e) {
   if (e && e.target && e.target.closest('#logo')) return;
+  if (isPageTwoVisible()) return;
   isNight = !isNight;
 }
 
@@ -340,6 +346,7 @@ function touchEnded(e) {
   const dt = millis() - touchStartTime;
   if (!didTouchMove && dt < TAP_TIME_THRESHOLD) {
     if (e && e.target && e.target.closest('#logo')) return false;
+    if (isPageTwoVisible()) return false;
     isNight = !isNight;
   }
   return false;
