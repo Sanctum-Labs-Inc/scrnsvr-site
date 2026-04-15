@@ -69,7 +69,8 @@ import Base from '../layouts/Base.astro';
 
         // Hide the sketch
         pageTwo.classList.remove('visible');
-        loop(); // Resume cloud shader
+        shaderTime = 0;
+        loop();
 
         // After the fade-out, reverse the zoom
         setTimeout(function() {
