@@ -273,6 +273,7 @@ const frag = `
 let cloudShader;
 let isNight = false;
 let nightBlend = 0.0;
+let shaderTime = 0;
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -294,8 +295,10 @@ function draw() {
 
   nightBlend = lerp(nightBlend, isNight ? 1.0 : 0.0, 0.08);
 
+  shaderTime += min(deltaTime, 100) / 1000.0;
+
   cloudShader.setUniform('u_resolution', [width, height]);
-  cloudShader.setUniform('u_time', (millis() / 1000.0) % 10000.0);
+  cloudShader.setUniform('u_time', shaderTime);
   cloudShader.setUniform('u_night', nightBlend);
 
   const mx = constrain(mouseX / width, 0, 1);
