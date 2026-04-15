@@ -35,25 +35,50 @@ import Base from '../layouts/Base.astro';
       var circle = document.getElementById('circle');
       var zoomed = false;
 
-      function triggerZoom() {
-        if (zoomed) return;
-        zoomed = true;
-
+      function getZoomParams() {
         var circleRect = circle.getBoundingClientRect();
         var cx = circleRect.left + circleRect.width / 2;
         var cy = circleRect.top + circleRect.height / 2;
         var circleRadius = Math.max(circleRect.width, circleRect.height) / 2;
-
         var viewDiag = Math.sqrt(
           window.innerWidth * window.innerWidth +
           window.innerHeight * window.innerHeight
         );
-        var scale = (viewDiag / circleRadius) * 1.2;
+        return {
+          cx: cx,
+          cy: cy,
+          scale: (viewDiag / circleRadius) * 1.2
+        };
+      }
 
-        overlay.style.transformOrigin = cx + 'px ' + cy + 'px';
-        overlay.style.transform = 'scale(' + scale + ')';
+      // If returning from about page, start zoomed in and reverse
+      if (sessionStorage.getItem('returnFromAbout')) {
+        sessionStorage.removeItem('returnFromAbout');
+        var params = getZoomParams();
+
+        // Start zoomed in with no transition and no fade-in
+        overlay.style.transition = 'none';
+        logo.style.animation = 'none';
+        logo.style.opacity = '1';
+        overlay.style.transformOrigin = params.cx + 'px ' + params.cy + 'px';
+        overlay.style.transform = 'scale(' + params.scale + ')';
+
+        // Force reflow, then animate back
+        overlay.offsetHeight;
+        overlay.style.transition = '';
+        overlay.style.transform = 'scale(1)';
+      }
+
+      function triggerZoom() {
+        if (zoomed) return;
+        zoomed = true;
+
+        var params = getZoomParams();
+        overlay.style.transformOrigin = params.cx + 'px ' + params.cy + 'px';
+        overlay.style.transform = 'scale(' + params.scale + ')';
 
         setTimeout(function() {
+          sessionStorage.setItem('returnFromAbout', 'true');
           window.location.href = '/about';
         }, 1400);
       }
