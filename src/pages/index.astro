@@ -52,10 +52,11 @@ import Base from '../layouts/Base.astro';
       }
 
       function reverseZoom() {
-        if (!sessionStorage.getItem('returnFromAbout')) return;
-        sessionStorage.removeItem('returnFromAbout');
+        var stored = sessionStorage.getItem('zoomParams');
+        if (!stored) return;
+        sessionStorage.removeItem('zoomParams');
 
-        var params = getZoomParams();
+        var params = JSON.parse(stored);
 
         // Start zoomed in with no transition and no fade-in
         overlay.style.transition = 'none';
@@ -86,7 +87,7 @@ import Base from '../layouts/Base.astro';
         overlay.style.transform = 'scale(' + params.scale + ')';
 
         setTimeout(function() {
-          sessionStorage.setItem('returnFromAbout', 'true');
+          sessionStorage.setItem('zoomParams', JSON.stringify(params));
           window.location.href = '/about';
         }, 1400);
       }
