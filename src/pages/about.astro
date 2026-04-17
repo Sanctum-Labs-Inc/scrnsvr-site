@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
   title="scrnsvr"
   description="A cognitive defense system using generative art. Join the waitlist."
 >
+  <script is:inline src="/button-clouds.js"></script>
   <div id="page-two">
     <div class="about-content">
       <p class="about-text">hello world.</p>
@@ -24,7 +25,7 @@ import Base from '../layouts/Base.astro';
       <form id="waitlist-form" class="waitlist-form" novalidate>
         <input type="email" name="email" placeholder="email" required autocomplete="email" inputmode="email" />
         <input type="tel" name="phone" placeholder="phone" required autocomplete="tel" inputmode="tel" />
-        <button type="submit">join the waitlist</button>
+        <button type="submit"><span class="btn-label">join the waitlist</span></button>
         <p id="waitlist-status" class="waitlist-status" role="status" aria-live="polite"></p>
       </form>
     </div>
