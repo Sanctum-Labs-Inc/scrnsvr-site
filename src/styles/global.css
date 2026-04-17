@@ -92,6 +92,18 @@ main canvas {
   -webkit-font-smoothing: antialiased;
 }
 
+.about-logo {
+  display: block;
+  width: clamp(84px, 14vw, 140px);
+  line-height: 0;
+}
+
+.about-logo svg {
+  width: 100%;
+  height: auto;
+  fill: #f2ede2;
+}
+
 .about-text {
   font-size: clamp(15px, 1.1vw + 11px, 18px);
   line-height: 1.55;
