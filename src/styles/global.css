@@ -125,11 +125,11 @@ main canvas {
 .waitlist-form input {
   background: transparent;
   border: 1px solid rgba(242, 237, 226, 0.22);
-  border-radius: 2px;
+  border-radius: 999px;
   color: #f2ede2;
   font: inherit;
   font-size: 15px;
-  padding: 11px 13px;
+  padding: 11px 18px;
   outline: none;
   transition: border-color 0.2s ease;
 }
