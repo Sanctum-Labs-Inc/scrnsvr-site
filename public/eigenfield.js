@@ -500,14 +500,9 @@
   // reveals the mirror only inside the pill silhouettes.
   function startPillMirror() {
     var mirror = document.getElementById('eigenfield-mirror');
-    var mirrorSharp = document.getElementById('eigenfield-mirror-sharp');
     if (!mirror) return function () {};
     var mctx = mirror.getContext('2d');
-    var mctxSharp = mirrorSharp ? mirrorSharp.getContext('2d') : null;
     var SCALE = 0.4;
-    // Full-res copy so mix-blend-mode siblings (e.g. .about-hero) blend against
-    // a crisp 2D backdrop on iOS instead of the WebGL layer they can't sample.
-    var SCALE_SHARP = 1;
     var running = true;
     var clipDirty = true;
 
@@ -518,14 +513,6 @@
       if (mirror.height !== h) mirror.height = h;
       mirror.style.width = window.innerWidth + 'px';
       mirror.style.height = window.innerHeight + 'px';
-      if (mirrorSharp) {
-        var ws = Math.max(2, Math.floor(window.innerWidth * SCALE_SHARP));
-        var hs = Math.max(2, Math.floor(window.innerHeight * SCALE_SHARP));
-        if (mirrorSharp.width !== ws) mirrorSharp.width = ws;
-        if (mirrorSharp.height !== hs) mirrorSharp.height = hs;
-        mirrorSharp.style.width = window.innerWidth + 'px';
-        mirrorSharp.style.height = window.innerHeight + 'px';
-      }
     }
 
     function buildClipPath() {
@@ -585,10 +572,6 @@
           try {
             mctx.drawImage(cnv, 0, 0, mirror.width, mirror.height);
             if (!mirror.classList.contains('is-ready')) mirror.classList.add('is-ready');
-            if (mctxSharp) {
-              mctxSharp.drawImage(cnv, 0, 0, mirrorSharp.width, mirrorSharp.height);
-              if (!mirrorSharp.classList.contains('is-ready')) mirrorSharp.classList.add('is-ready');
-            }
           } catch (e) { /* canvas not ready */ }
           lastDraw = t;
         }
@@ -600,7 +583,150 @@
     return function stop() { running = false; };
   }
 
+  // Hero text with inverted-against-art look, painted inside a single canvas.
+  // CSS mix-blend-mode: difference against the WebGL canvas breaks on iOS
+  // WebKit once it promotes layers to GPU (~1s in), and that hit every iOS
+  // browser because they all wrap WebKit. Doing the blend with
+  // globalCompositeOperation='difference' inside one 2D canvas keeps all
+  // compositing internal, which mobile WebKit handles correctly.
+  function startHeroCanvas() {
+    var hero = document.querySelector('.about-hero');
+    var canvas = hero && hero.querySelector('.about-hero-canvas');
+    if (!hero || !canvas) return function () {};
+    var ctx = canvas.getContext('2d');
+    var maskCanvas = document.createElement('canvas');
+    var mctx = maskCanvas.getContext('2d');
+    var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+    var running = true;
+    var lines = [];
+    var fontSpec = '';
+    var lineHeightPx = 32;
+    var letterSpacingPx = 0;
+    var boxW = 0, boxH = 0;
+
+    function wrapText(raw, maxWidth) {
+      var words = raw.split(/\s+/);
+      var wrapped = [];
+      var current = '';
+      for (var i = 0; i < words.length; i++) {
+        var test = current ? current + ' ' + words[i] : words[i];
+        if (ctx.measureText(test).width > maxWidth && current) {
+          wrapped.push(current);
+          current = words[i];
+        } else {
+          current = test;
+        }
+      }
+      if (current) wrapped.push(current);
+      return wrapped;
+    }
+
+    function refreshLayout() {
+      var rawLines = Array.prototype.slice.call(hero.querySelectorAll('span')).map(function (s) {
+        return s.textContent.trim();
+      });
+      var cs = getComputedStyle(hero);
+      var fontSize = parseFloat(cs.fontSize) || 32;
+      var lh = parseFloat(cs.lineHeight);
+      lineHeightPx = (!lh || isNaN(lh)) ? fontSize * 1.06 : lh;
+      fontSpec = cs.fontWeight + ' ' + fontSize + 'px ' + cs.fontFamily;
+      letterSpacingPx = parseFloat(cs.letterSpacing) || 0;
+
+      var r = hero.getBoundingClientRect();
+      boxW = r.width;
+      boxH = r.height;
+      canvas.width = Math.max(2, Math.floor(boxW * dpr));
+      canvas.height = Math.max(2, Math.floor(boxH * dpr));
+      canvas.style.width = boxW + 'px';
+      canvas.style.height = boxH + 'px';
+      maskCanvas.width = canvas.width;
+      maskCanvas.height = canvas.height;
+
+      // Word-wrap each span (display: block) inside the hero's content box so
+      // canvas lines match HTML's flow. Font/letterSpacing must be set before
+      // measureText; they reset each time canvas.width is assigned.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = fontSpec;
+      if ('letterSpacing' in ctx) ctx.letterSpacing = letterSpacingPx + 'px';
+
+      lines = [];
+      for (var k = 0; k < rawLines.length; k++) {
+        var wrapped = wrapText(rawLines[k], boxW);
+        for (var j = 0; j < wrapped.length; j++) lines.push(wrapped[j]);
+      }
+
+      // Pre-render all lines to an offscreen mask in one pass so the main
+      // canvas can apply it as a single destination-in (sequential text masks
+      // wipe each other out).
+      mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mctx.clearRect(0, 0, boxW, boxH);
+      mctx.font = fontSpec;
+      mctx.textAlign = 'center';
+      mctx.textBaseline = 'middle';
+      if ('letterSpacing' in mctx) mctx.letterSpacing = letterSpacingPx + 'px';
+      mctx.fillStyle = '#ffffff';
+      var totalH = lines.length * lineHeightPx;
+      var topY = (boxH - totalH) / 2;
+      for (var m = 0; m < lines.length; m++) {
+        mctx.fillText(lines[m], boxW / 2, topY + lineHeightPx * (m + 0.5));
+      }
+    }
+
+    function draw() {
+      if (!running) return;
+      var r = hero.getBoundingClientRect();
+      if (Math.abs(r.width - boxW) > 0.5 || Math.abs(r.height - boxH) > 0.5) {
+        refreshLayout();
+      }
+      var bg = document.querySelector('#eigenfield-bg canvas');
+      var vw = window.innerWidth, vh = window.innerHeight;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, boxW, boxH);
+
+      if (bg && bg.width > 0) {
+        var sx = (r.left / vw) * bg.width;
+        var sy = (r.top / vh) * bg.height;
+        var sw = (r.width / vw) * bg.width;
+        var sh = (r.height / vh) * bg.height;
+        try {
+          ctx.drawImage(bg, sx, sy, sw, sh, 0, 0, boxW, boxH);
+        } catch (e) { /* canvas not ready */ }
+      }
+
+      // Difference-blend the pre-rendered text mask against the eigenfield
+      // sample, then clip to the glyph shapes in a single pass.
+      ctx.globalCompositeOperation = 'difference';
+      ctx.drawImage(maskCanvas, 0, 0, boxW, boxH);
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.drawImage(maskCanvas, 0, 0, boxW, boxH);
+
+      requestAnimationFrame(draw);
+    }
+
+    function startDrawing() {
+      refreshLayout();
+      // Hand off visible rendering to the canvas; HTML text stays for a11y.
+      hero.style.color = 'transparent';
+      window.addEventListener('resize', refreshLayout);
+      requestAnimationFrame(draw);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startDrawing, startDrawing);
+    } else {
+      startDrawing();
+    }
+
+    return function stop() {
+      running = false;
+      window.removeEventListener('resize', refreshLayout);
+    };
+  }
+
   window.startEigenfield = startEigenfield;
   window.startLumAdapter = startLumAdapter;
   window.startPillMirror = startPillMirror;
+  window.startHeroCanvas = startHeroCanvas;
 })();

@@ -7,7 +7,6 @@ import Base from '../layouts/Base.astro';
 >
   <script is:inline src="/eigenfield.js"></script>
   <div id="eigenfield-bg" aria-hidden="true"></div>
-  <canvas id="eigenfield-mirror-sharp" aria-hidden="true"></canvas>
   <canvas id="eigenfield-mirror" aria-hidden="true"></canvas>
   <div id="page-two">
     <div class="about-content">
@@ -34,6 +33,7 @@ import Base from '../layouts/Base.astro';
       <h1 class="about-hero">
         <span>screensavers used to protect our screens.</span>
         <span>now our attention is what needs protecting.</span>
+        <canvas class="about-hero-canvas" aria-hidden="true"></canvas>
       </h1>
       <form id="waitlist-form" class="waitlist-form" novalidate>
         <input type="email" name="email" placeholder="email" required autocomplete="email" inputmode="email" data-adapt />
@@ -53,6 +53,7 @@ import Base from '../layouts/Base.astro';
       if ((window as any).startEigenfield) (window as any).startEigenfield();
       if ((window as any).startLumAdapter) (window as any).startLumAdapter();
       if ((window as any).startPillMirror) (window as any).startPillMirror();
+      if ((window as any).startHeroCanvas) (window as any).startHeroCanvas();
 
       // Trigger the CSS opacity transition on .about-content children by toggling
       // #page-two.is-loaded on the next frame. A transition avoids the iOS
