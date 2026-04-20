@@ -271,6 +271,7 @@ main canvas {
   color: #cfe4a8;
 }
 
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

@@ -11,7 +11,7 @@
       var didDrag = false;
 
       var phaseT = 0.0;
-      var BASE_SPEED = 0.33;
+      var BASE_SPEED = 0.22;
       var DT_CLAMP = 1 / 60;
 
       var morphX = 0.0, morphY = 0.0;
@@ -162,12 +162,12 @@
         '  vec2 uv6b = extraDim6(uvH2, t*(0.57 + 0.15*breath), morphY);',
         '  float ts = t * (0.60 + 0.03*PHI);',
         '  float tf = t * (0.95 + 0.02*SQ2);',
-        '  float R1 = blendedRect(uv6a, 2.0+7.0*0.5*(sin(0.052*ts)+sin(0.067*ts+1.2)),',
-        '                               3.0+7.0*0.5*(sin(0.049*ts+0.7)+sin(0.061*ts+2.5)));',
-        '  float R2 = blendedRect(uvH1,  5.0+9.0*0.5*(sin(0.045*tf+2.2)+sin(0.069*tf)),',
-        '                               4.0+9.0*0.5*(sin(0.047*tf)+sin(0.073*tf+1.0)));',
-        '  float R3 = blendedRect(uvH2,  7.0+11.0*0.5*(sin(0.041*ts+1.1)+sin(0.059*ts+0.3)),',
-        '                               6.0+11.0*0.5*(sin(0.052*ts+0.6)+sin(0.061*ts+2.0)));',
+        '  float R1 = blendedRect(uv6a, 2.0+5.0*0.5*(sin(0.052*ts)+sin(0.067*ts+1.2)),',
+        '                               3.0+5.0*0.5*(sin(0.049*ts+0.7)+sin(0.061*ts+2.5)));',
+        '  float R2 = blendedRect(uvH1,  4.0+6.0*0.5*(sin(0.045*tf+2.2)+sin(0.069*tf)),',
+        '                               4.0+6.0*0.5*(sin(0.047*tf)+sin(0.073*tf+1.0)));',
+        '  float R3 = blendedRect(uvH2,  5.0+7.0*0.5*(sin(0.041*ts+1.1)+sin(0.059*ts+0.3)),',
+        '                               5.0+7.0*0.5*(sin(0.052*ts+0.6)+sin(0.061*ts+2.0)));',
         '  float qA = quasi(uv6a, sc, 11.0, 17.0, 23.0);',
         '  float T1 = torusMode(uv6a + 0.002*qA, 3.0 + 2.0*sin(0.05*ts), 5.0 + 3.0*sin(0.065*ts));',
         '  float T2 = torusMode(uvH1, 8.0, 13.0);',
