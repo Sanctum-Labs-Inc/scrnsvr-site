@@ -608,7 +608,7 @@
     var fontSpec = '';
     var lineHeightPx = 32;
     var letterSpacingPx = 0;
-    var boxW = 0, boxH = 0;
+    var boxW = 0, boxH = 0, paintedH = 0;
 
     function wrapText(raw, maxWidth) {
       var words = raw.split(/\s+/);
@@ -641,10 +641,16 @@
       var r = hero.getBoundingClientRect();
       boxW = r.width;
       boxH = r.height;
+      // Extend the canvas below the hero's box so descenders on the last line
+      // (g, p, y, j) aren't clipped — the box is exactly N × line-height tall
+      // and canvas text rendering puts the descender flush to the bottom.
+      var fs = parseFloat(getComputedStyle(hero).fontSize) || 32;
+      var descenderPad = Math.ceil(fs * 0.35);
+      paintedH = boxH + descenderPad;
       canvas.width = Math.max(2, Math.floor(boxW * dpr));
-      canvas.height = Math.max(2, Math.floor(boxH * dpr));
+      canvas.height = Math.max(2, Math.floor(paintedH * dpr));
       canvas.style.width = boxW + 'px';
-      canvas.style.height = boxH + 'px';
+      canvas.style.height = paintedH + 'px';
       maskCanvas.width = canvas.width;
       maskCanvas.height = canvas.height;
 
@@ -663,18 +669,21 @@
 
       // Pre-render all lines to an offscreen mask in one pass so the main
       // canvas can apply it as a single destination-in (sequential text masks
-      // wipe each other out).
+      // wipe each other out). Use the alphabetic baseline and place each line
+      // near the line-box bottom so descenders (g, p, y) fit inside the box.
       mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       mctx.clearRect(0, 0, boxW, boxH);
       mctx.font = fontSpec;
       mctx.textAlign = 'center';
-      mctx.textBaseline = 'middle';
+      mctx.textBaseline = 'alphabetic';
       if ('letterSpacing' in mctx) mctx.letterSpacing = letterSpacingPx + 'px';
       mctx.fillStyle = '#ffffff';
       var totalH = lines.length * lineHeightPx;
       var topY = (boxH - totalH) / 2;
+      var fontSize = parseFloat(getComputedStyle(hero).fontSize) || 32;
+      var descentEstimate = fontSize * 0.22;
       for (var m = 0; m < lines.length; m++) {
-        mctx.fillText(lines[m], boxW / 2, topY + lineHeightPx * (m + 0.5));
+        mctx.fillText(lines[m], boxW / 2, topY + lineHeightPx * (m + 1) - descentEstimate);
       }
     }
 
@@ -689,24 +698,26 @@
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.globalCompositeOperation = 'source-over';
-      ctx.clearRect(0, 0, boxW, boxH);
+      ctx.clearRect(0, 0, boxW, paintedH);
 
       if (bg && bg.width > 0) {
+        // Sample the eigenfield region covering the hero box plus the extra
+        // descender pad that extends below it.
         var sx = (r.left / vw) * bg.width;
         var sy = (r.top / vh) * bg.height;
         var sw = (r.width / vw) * bg.width;
-        var sh = (r.height / vh) * bg.height;
+        var sh = (paintedH / vh) * bg.height;
         try {
-          ctx.drawImage(bg, sx, sy, sw, sh, 0, 0, boxW, boxH);
+          ctx.drawImage(bg, sx, sy, sw, sh, 0, 0, boxW, paintedH);
         } catch (e) { /* canvas not ready */ }
       }
 
       // Difference-blend the pre-rendered text mask against the eigenfield
       // sample, then clip to the glyph shapes in a single pass.
       ctx.globalCompositeOperation = 'difference';
-      ctx.drawImage(maskCanvas, 0, 0, boxW, boxH);
+      ctx.drawImage(maskCanvas, 0, 0, boxW, paintedH);
       ctx.globalCompositeOperation = 'destination-in';
-      ctx.drawImage(maskCanvas, 0, 0, boxW, boxH);
+      ctx.drawImage(maskCanvas, 0, 0, boxW, paintedH);
 
       requestAnimationFrame(draw);
     }
