@@ -529,6 +529,9 @@
         if (r.width <= 1 || r.height <= 1) return;
         // Status line has no visible pill — don't punch a mirror hole behind it.
         if (el.id === 'waitlist-status') return;
+        // During the staged intro, waitlist pill-fields start faded out; don't
+        // reveal the blurred art behind them before their fade begins.
+        if (el.classList.contains('pill-field') && !el.classList.contains('is-visible')) return;
         var rr = Math.min(20, r.height * 0.5, r.width * 0.5);
         var x = r.left, y = r.top, w = r.width, h = r.height;
         parts.push(
@@ -555,6 +558,7 @@
     }
 
     function markClipDirty() { clipDirty = true; }
+    window.markMirrorClipDirty = markClipDirty;
 
     sizeMirror();
     window.addEventListener('resize', function () {
@@ -609,6 +613,97 @@
     var lineHeightPx = 32;
     var letterSpacingPx = 0;
     var boxW = 0, boxH = 0, paintedH = 0;
+    var topY = 0, descentEstimate = 0;
+
+    // Terminal-style typewriter state. Advance one character per tick,
+    // draw an underscore cursor trailing the current line.
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var anim = {
+      primed: false,
+      started: false,
+      finished: false,
+      lineIdx: 0,
+      charIdx: 0,
+      nextAt: 0,
+      initialDelayMs: 120,
+      charIntervalMs: 35,
+      linePauseMs: 180,
+      paragraphPauseMs: 420
+    };
+
+    function finishTyping() {
+      anim.primed = true;
+      anim.finished = true;
+      renderMask();
+      hero.dispatchEvent(new CustomEvent('herotypingcomplete'));
+    }
+
+    function startTyping() {
+      if (anim.primed) return;
+      if (prefersReduced) { finishTyping(); return; }
+      anim.primed = true;
+    }
+
+    window.startHeroTyping = startTyping;
+
+    function displayedTextFor(idx) {
+      if (anim.finished) return lines[idx];
+      if (!anim.primed) return '';
+      if (idx < anim.lineIdx) return lines[idx];
+      if (idx > anim.lineIdx) return '';
+      if (lines[idx] === '') return '';
+      return lines[idx].slice(0, anim.charIdx) + '_';
+    }
+
+    function renderMask() {
+      mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mctx.clearRect(0, 0, boxW, paintedH);
+      mctx.font = fontSpec;
+      mctx.textAlign = 'center';
+      mctx.textBaseline = 'alphabetic';
+      if ('letterSpacing' in mctx) mctx.letterSpacing = letterSpacingPx + 'px';
+      mctx.fillStyle = '#ffffff';
+      for (var m = 0; m < lines.length; m++) {
+        var text = displayedTextFor(m);
+        if (text) mctx.fillText(text, boxW / 2, topY + lineHeightPx * (m + 1) - descentEstimate);
+      }
+    }
+
+    function tickTyping(t) {
+      if (anim.finished || !anim.primed) return;
+      if (!anim.started) {
+        anim.started = true;
+        anim.nextAt = t + anim.initialDelayMs;
+        renderMask();
+        return;
+      }
+      if (t < anim.nextAt) return;
+      var line = lines[anim.lineIdx];
+      if (typeof line !== 'string') { finishTyping(); return; }
+      if (line === '') {
+        if (anim.lineIdx < lines.length - 1) {
+          anim.lineIdx++;
+          anim.charIdx = 0;
+          anim.nextAt = t + anim.paragraphPauseMs;
+          renderMask();
+        } else {
+          finishTyping();
+        }
+        return;
+      }
+      if (anim.charIdx < line.length) {
+        anim.charIdx++;
+        anim.nextAt = t + anim.charIntervalMs;
+        renderMask();
+      } else if (anim.lineIdx < lines.length - 1) {
+        anim.lineIdx++;
+        anim.charIdx = 0;
+        anim.nextAt = t + anim.linePauseMs;
+        renderMask();
+      } else {
+        finishTyping();
+      }
+    }
 
     function wrapText(raw, maxWidth) {
       // Split on regular spaces only — preserve non-breaking spaces inside
@@ -673,32 +768,22 @@
         for (var j = 0; j < wrapped.length; j++) lines.push(wrapped[j]);
       }
 
-      // Pre-render all lines to an offscreen mask in one pass so the main
-      // canvas can apply it as a single destination-in (sequential text masks
-      // wipe each other out). Use the alphabetic baseline and place each line
-      // near the line-box bottom so descenders (g, p, y) fit inside the box.
-      mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      mctx.clearRect(0, 0, boxW, boxH);
-      mctx.font = fontSpec;
-      mctx.textAlign = 'center';
-      mctx.textBaseline = 'alphabetic';
-      if ('letterSpacing' in mctx) mctx.letterSpacing = letterSpacingPx + 'px';
-      mctx.fillStyle = '#ffffff';
+      // Position lines near the bottom of their line-box so descenders
+      // (g, p, y) fit inside the painted area. Re-render the mask from the
+      // current typing state on every layout refresh.
       var totalH = lines.length * lineHeightPx;
-      var topY = (boxH - totalH) / 2;
-      var fontSize = parseFloat(getComputedStyle(hero).fontSize) || 32;
-      var descentEstimate = fontSize * 0.22;
-      for (var m = 0; m < lines.length; m++) {
-        mctx.fillText(lines[m], boxW / 2, topY + lineHeightPx * (m + 1) - descentEstimate);
-      }
+      topY = (boxH - totalH) / 2;
+      descentEstimate = fontSize * 0.22;
+      renderMask();
     }
 
-    function draw() {
+    function draw(t) {
       if (!running) return;
       var r = hero.getBoundingClientRect();
       if (Math.abs(r.width - boxW) > 0.5 || Math.abs(r.height - boxH) > 0.5) {
         refreshLayout();
       }
+      tickTyping(t || performance.now());
       var bg = document.querySelector('#eigenfield-bg canvas');
       var vw = window.innerWidth, vh = window.innerHeight;
 

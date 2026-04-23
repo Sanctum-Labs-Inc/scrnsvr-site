@@ -61,14 +61,62 @@ import Base from '../layouts/Base.astro';
       if ((window as any).startPillMirror) (window as any).startPillMirror();
       if ((window as any).startHeroCanvas) (window as any).startHeroCanvas();
 
-      // Trigger the CSS opacity transition on .about-content children by toggling
-      // #page-two.is-loaded on the next frame. A transition avoids the iOS
-      // retained composited layer that a forwards-filled animation creates.
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          pageTwo.classList.add('is-loaded');
-        });
-      });
+      // Staged intro: logo fades in, then the hero's typewriter runs, then
+      // each form field fades in one after the previous finishes its fade.
+      const logo = document.querySelector('.about-logo') as HTMLElement;
+      const hero = document.querySelector('.about-hero') as HTMLElement;
+      const fields = document.querySelectorAll<HTMLElement>('.waitlist-form .pill-field');
+      const emailField = fields[0];
+      const phoneField = fields[1];
+      const submitBtn = document.querySelector('.waitlist-form button') as HTMLElement;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Resolves when el's opacity transition finishes. Uses a timeout fallback
+      // so a missed transitionend (CSS override, reduced motion) still advances.
+      function onOpacityEnd(el: HTMLElement, cb: () => void) {
+        let done = false;
+        const handler = (e: Event) => {
+          const te = e as TransitionEvent;
+          if (te.propertyName !== 'opacity' || done) return;
+          done = true;
+          el.removeEventListener('transitionend', handler);
+          cb();
+        };
+        el.addEventListener('transitionend', handler);
+        setTimeout(() => { if (done) return; done = true; el.removeEventListener('transitionend', handler); cb(); }, 1400);
+      }
+
+      if (prefersReduced) {
+        logo.classList.add('is-visible');
+        emailField.classList.add('is-visible');
+        phoneField.classList.add('is-visible');
+        submitBtn.classList.add('is-visible');
+        if ((window as any).startHeroTyping) (window as any).startHeroTyping();
+      } else {
+        // Give the eigenfield art a beat to settle before the logo fades in.
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            logo.classList.add('is-visible');
+            onOpacityEnd(logo, () => {
+              if ((window as any).startHeroTyping) (window as any).startHeroTyping();
+            });
+          });
+        }, 300);
+        const markClipDirty = () => {
+          if ((window as any).markMirrorClipDirty) (window as any).markMirrorClipDirty();
+        };
+        hero.addEventListener('herotypingcomplete', () => {
+          emailField.classList.add('is-visible');
+          markClipDirty();
+          onOpacityEnd(emailField, () => {
+            phoneField.classList.add('is-visible');
+            markClipDirty();
+            onOpacityEnd(phoneField, () => {
+              submitBtn.classList.add('is-visible');
+            });
+          });
+        }, { once: true });
+      }
 
       // Fade out before navigating away (back button or link)
       window.addEventListener('pagehide', function() {
