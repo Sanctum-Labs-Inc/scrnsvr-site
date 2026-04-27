@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="scrnsvr"
+  description="Your screen, restored. Generative art for attention, stillness, and presence."
+>
+  <div class="logo-overlay">
+    <svg id="logo" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 113.76">
+      <defs>
+        <style>.cls-1{fill:#fbda54;}</style>
+      </defs>
+      <path class="cls-1" d="M63.02,9.37c2.7-.35,5.23.87,6.88,2.96,16.47,28.2,32.99,56.37,49.06,84.79,1.7,4.36-1.34,7.5-5.54,8.05H14.54c-3.49-.34-6.55-3.19-5.81-6.88C25.1,69.33,41.85,40.48,58.69,11.78c1.04-1.16,2.77-2.2,4.33-2.4Z"/>
+      <path d="M63.69,0c12.24-.26,17.22,13.08,22.31,21.96,9.92,17.3,19.91,34.57,29.83,51.88,3.4,5.93,7.52,12.1,10.39,18.25,4.96,10.63-.94,20.08-12.15,21.66H14.01c-6.02-.79-11.86-4.41-13.51-10.51-1.87-6.89,1.9-12.39,5.11-18.1C20.3,59.06,35.87,33.44,50.59,7.37,53.56,3.05,58.37.12,63.69,0ZM63.02,9.37c-1.56.2-3.29,1.25-4.33,2.4-16.84,28.7-33.59,57.56-49.97,86.53-.74,3.69,2.32,6.54,5.81,6.88h98.88c4.2-.56,7.24-3.69,5.54-8.05-16.07-28.42-32.59-56.6-49.06-84.79-1.65-2.09-4.18-3.3-6.88-2.96Z"/>
+      <path d="M88.27,80.48c-.09,12.85-10.74,18.83-23.58,18.83s-23.58-6.42-23.58-18.3c0-1.06.62-1.76,1.58-1.85h6.95c1.14,0,1.85.7,1.85,1.94,0,3.7,3.17,8.27,13.2,8.27,8.89,0,13.02-2.99,13.02-8.89,0-5.1-4.14-8.18-13.11-8.98-12.32-1.06-22.53-4.75-22.53-17.25,0-11.7,11.09-18.13,21.74-18.13s22.35,5.63,22.35,18.3c0,1.06-.62,1.94-1.58,1.94h-7.39c-.97,0-1.58-.88-1.58-1.94,0-4.84-5.28-8.71-11.79-8.71-6.07,0-11.18,3.87-11.18,8.54,0,4.93,4.84,6.42,12.23,7.22,13.46,1.41,23.41,5.54,23.41,19.01Z"/>
+      <rect class="cls-1" x="41.04" y="75.73" width="12.41" height="19.56" transform="translate(67.36 -10.09) rotate(40.8)"/>
+      <path id="circle" d="M40.19,70.07c8.43-.72,13,9.96,6.42,15.4s-16.68-1.06-13.96-9.47c1.05-3.24,4.13-5.64,7.53-5.93Z"/>
+      <path d="M60.26,89.02c-1.66-.32-4.35-1.31-5.43-2.19-.85-.69-1.8-1-2.66-.26l-5.26,4.54c-.68.7-.68,1.63,0,2.43,2.17,2.52,7.98,4.13,10.75,4.97,1.19-3.25,1.11-6.39,2.6-9.5Z"/>
+    </svg>
+  </div>
+
+  <script is:inline src="/main.js"></script>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+      var logo = document.getElementById('logo');
+      var overlay = document.querySelector('.logo-overlay');
+      var circle = document.getElementById('circle');
+      var zoomed = false;
+
+      function getZoomParams() {
+        var circleRect = circle.getBoundingClientRect();
+        var cx = circleRect.left + circleRect.width / 2;
+        var cy = circleRect.top + circleRect.height / 2;
+        var circleRadius = Math.max(circleRect.width, circleRect.height) / 2;
+        var viewDiag = Math.sqrt(
+          window.innerWidth * window.innerWidth +
+          window.innerHeight * window.innerHeight
+        );
+        return {
+          cx: cx,
+          cy: cy,
+          scale: (viewDiag / circleRadius) * 1.2
+        };
+      }
+
+      function reverseZoom() {
+        var stored = sessionStorage.getItem('zoomParams');
+        if (!stored) return;
+        sessionStorage.removeItem('zoomParams');
+
+        var params = JSON.parse(stored);
+
+        overlay.style.transition = 'none';
+        logo.style.animation = 'pulse 3.6s ease-in-out infinite';
+        logo.style.opacity = '1';
+        overlay.style.transformOrigin = params.cx + 'px ' + params.cy + 'px';
+        overlay.style.transform = 'scale(' + params.scale + ')';
+
+        overlay.offsetHeight;
+        overlay.style.transition = '';
+        overlay.style.transform = 'scale(1)';
+        zoomed = false;
+      }
+
+      reverseZoom();
+      window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+          overlay.style.transition = '';
+          overlay.style.transform = '';
+          overlay.style.transformOrigin = '';
+          reverseZoom();
+        }
+      });
+
+      function triggerZoom() {
+        if (zoomed) return;
+        zoomed = true;
+
+        var params = getZoomParams();
+        overlay.style.transformOrigin = params.cx + 'px ' + params.cy + 'px';
+        overlay.style.transform = 'scale(' + params.scale + ')';
+
+        setTimeout(function() {
+          sessionStorage.setItem('zoomParams', JSON.stringify(params));
+          window.location.href = '/about';
+        }, 1400);
+      }
+
+      logo.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        triggerZoom();
+      });
+
+      logo.addEventListener('touchend', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        triggerZoom();
+      });
+    });
+  </script>
+</Base>
