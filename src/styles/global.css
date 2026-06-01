@@ -184,6 +184,15 @@ main canvas {
 }
 
 .about-content {
+  /* Distance from the artwork's center (= viewport center, where the lattice
+     is pinned) out to the logo's bottom edge and to the form's top edge. The
+     artwork's own half-height is ~35vmin, so anything larger leaves a
+     symmetric margin above the top edge / below the bottom edge. Because the
+     same value drives both sides and the lattice is centered, the logo's gap
+     above and the form's gap below stay equal automatically. */
+  --art-edge-offset: 50vmin;
+  --logo-w: clamp(208px, 56vmin, 360px);
+
   width: 100%;
   max-width: min(97vw, 760px);
   display: flex;
@@ -196,15 +205,22 @@ main canvas {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Match the landing logo's scale (half the shorter viewport dimension) on
-   mobile, with a cap on desktop so the column fits without scrolling. */
+/* Horizontal wordmark, pinned near the top of the viewport so it sits above
+   the top edge of the eigenfield/lattice structure rather than overlapping it.
+   Absolutely positioned (out of the centered column) against #page-two, which
+   is the nearest positioned ancestor. */
+/* Base (landscape / short screens): logo rides at the top of the centered
+   column with hero + form. The artwork is height-sized here and nearly fills
+   the viewport, so there's no room to push the logo above / form below it —
+   the column layout keeps everything on-screen. The portrait block below
+   takes over where there IS room. */
 .about-logo {
-  display: block;
-  width: min(calc(min(100vw, 100vh) / 2), 200px);
+  width: var(--logo-w);
   line-height: 0;
 }
 
-.about-logo svg {
+.about-logo img {
+  display: block;
   width: 100%;
   height: auto;
 }
@@ -284,6 +300,32 @@ main canvas {
   width: 100%;
   max-width: 360px;
   margin-top: clamp(8px, 1.5vh, 16px);
+}
+
+/* Portrait: there's clear space above the artwork's top edge and below its
+   bottom edge. Pull the logo and form out of the flow and pin them a fixed
+   distance from the artwork's center (= viewport center). The hero stays as
+   the only in-flow child, so the flex column centers it — putting the gap
+   between its two sentences on the artwork's center. Because the same offset
+   drives both sides and the lattice is centered, the logo's margin above the
+   top edge and the form's margin below the bottom edge stay equal. */
+@media (orientation: portrait) {
+  .about-logo {
+    position: absolute;
+    left: 50%;
+    bottom: calc(50% + var(--art-edge-offset));
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  .waitlist-form {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + var(--art-edge-offset));
+    transform: translateX(-50%);
+    width: min(92vw, 360px);
+    max-width: none;
+    margin-top: 0;
+  }
 }
 
 .waitlist-form .pill-field {
