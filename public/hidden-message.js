@@ -18,6 +18,40 @@
       var DAMPING = 0.78;
       var EDGE_STIFFNESS = 0.015;
 
+      // Audio: an ambient pad triggered when nodes are flung hard, over a low
+      // drone. Requires p5.sound (loaded on the about page). ENABLE_AUDIO is the
+      // intent flag; audioReady is flipped true only once the nodes construct
+      // without error, so a missing/broken p5.sound never kills the visual.
+      var ENABLE_AUDIO = true;
+      var audioReady = false;
+      var synth, delayEngine, reverbEngine, masterHum;
+      // Ethereal pentatonic horizon scale (MIDI numbers, C3 to A5).
+      var MIDI_SCALE = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72, 74, 76, 79, 81];
+
+      // Maps a flung node to a panned, pitch-bent note. Verbatim from the
+      // original piece, retargeted to instance-mode p5 calls.
+      function triggerSpatialAudio(node, velocityMagnitude) {
+        var maxDist = 3.5;
+        var scaleIndex = p.floor(p.map(node.dist, 0, maxDist, 0, MIDI_SCALE.length - 1));
+        scaleIndex = p.constrain(scaleIndex, 0, MIDI_SCALE.length - 1);
+
+        var baseFreq = p.midiToFreq(MIDI_SCALE[scaleIndex]);
+        // Microtonal pitch-bend: high physical stress pulls the note sharp.
+        var pitchBend = p.map(node.localStress, 0, 15, 1.0, 1.035);
+        var finalFrequency = baseFreq * pitchBend;
+
+        var soundVolume = p.constrain(p.map(velocityMagnitude, 4, 25, 0.02, 0.2), 0.01, 0.25);
+        var duration = p.constrain(p.map(velocityMagnitude, 4, 25, 0.3, 1.2), 0.1, 1.6);
+
+        // Map layout space to stereo pan.
+        var panPosition = p.constrain(node.currentX / (p.width / 2), -1.0, 1.0);
+
+        try {
+          synth.play(finalFrequency, soundVolume, 0, duration);
+          if (synth.output && synth.output.pan) synth.output.pan(panPosition);
+        } catch (e) { /* never let an audio hiccup break the draw loop */ }
+      }
+
       p.setup = function () {
         var cnv = p.createCanvas(p.windowWidth, p.windowHeight);
         cnv.parent('eigenfield-bg');
@@ -28,6 +62,25 @@
         if (orphanMain) orphanMain.remove();
         p.pixelDensity(Math.min(2, window.devicePixelRatio || 1));
         p.colorMode(p.HSB, 360, 100, 100, 1);
+
+        // Build the audio pipeline: synth -> delay -> reverb -> output, plus a
+        // low ground drone. Wrapped so a missing p5.sound or an unsupported
+        // method leaves audioReady false and the piece simply stays silent.
+        if (ENABLE_AUDIO && typeof p5.PolySynth === 'function') {
+          try {
+            delayEngine = new p5.Delay();
+            reverbEngine = new p5.Reverb();
+            synth = new p5.PolySynth();
+            if (synth.setADSR) synth.setADSR(0.08, 0.2, 0.6, 1.4); // ambient cinematic pad
+            delayEngine.process(synth, 0.28, 0.42, 2500);          // 280ms echo, 42% feedback
+            reverbEngine.process(delayEngine, 5, 2.5);             // 5s cosmic decay
+            masterHum = new p5.Oscillator('sine');
+            masterHum.freq(65.41); // low C2
+            masterHum.amp(0.0);
+            masterHum.start();
+            audioReady = true;
+          } catch (e) { audioReady = false; }
+        }
 
         var rho_re = 0.5;
         var rho_im = Math.sqrt(3) / 2;
@@ -102,6 +155,15 @@
           var time = p.millis() * 0.001;
 
           var isTouching = (p.touches.length > 0 || p.mouseIsPressed);
+
+          // Background drone modulation: louder while interacting, otherwise a
+          // slow breathing swell, with a touch of frequency wobble.
+          if (audioReady && synth && masterHum) {
+            var basePulse = p.sin(time * 1.2);
+            var humTargetVolume = isTouching ? 0.07 : p.map(basePulse, -1, 1, 0.01, 0.035);
+            masterHum.amp(humTargetVolume, 0.1);
+            masterHum.freq(65.41 + (basePulse * 0.3));
+          }
 
           var v, edge, v1, v2;
 
@@ -187,6 +249,7 @@
             var currentSpeed = Math.sqrt(v.velX * v.velX + v.velY * v.velY);
             var deltaSpeed = currentSpeed - v.prevVel;
             if (deltaSpeed > 4.2 && isTouching) {
+              if (audioReady) triggerSpatialAudio(v, currentSpeed);
               v.acousticEnergy = 1.0;
             }
             v.prevVel = currentSpeed;
@@ -237,9 +300,12 @@
         } catch (err) { /* final safety net — keep the draw loop alive */ }
       };
 
-      // Prevent mobile browser pan/scroll/zoom from stealing the touch.
-      p.touchStarted = function () { return false; };
-      p.mousePressed = function () { return false; };
+      // Prevent mobile browser pan/scroll/zoom from stealing the touch, and
+      // resume the AudioContext on the first user gesture (browsers block audio
+      // until then). Calling userStartAudio here, not in the draw loop, means
+      // iOS only has to resume the context once.
+      p.touchStarted = function () { if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
+      p.mousePressed = function () { if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
       p.touchMoved = function () { return false; };
 
       p.windowResized = function () {
