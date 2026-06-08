@@ -9,7 +9,6 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.5.0",
     "@supabase/supabase-js": "^2.103.3",
     "astro": "^5.7.0"
   }
