@@ -314,7 +314,7 @@ import Base from '../layouts/Base.astro';
       position: fixed;
       inset: 0;
       z-index: 2;
-      transition: opacity 1s ease-out;
+      transition: opacity 1s ease-out, transform 0.25s ease-out;
     }
     #gate.is-hidden {
       opacity: 0;
@@ -894,13 +894,20 @@ import Base from '../layouts/Base.astro';
         if (unlocked) return;
         unlocked = true;
         try { sessionStorage.setItem('deckUnlocked', '1'); } catch (e) {}
+        // Drop the keyboard first and release the keyboard anchor, then let the
+        // viewport settle back to full height before the zoom is computed — so
+        // the zoom origin lands on the circle, not a keyboard-shrunk viewport.
+        pass.blur();
+        gate.style.transform = '';
         form.classList.add('is-out');
-        triggerZoom();
-        // begin crossfade partway through the zoom so the bloom lands on the deck
         window.setTimeout(function () {
-          gate.classList.add('is-hidden');
-          revealDeck(true);
-        }, 900);
+          triggerZoom();
+          // begin crossfade partway through the zoom so the bloom lands on the deck
+          window.setTimeout(function () {
+            gate.classList.add('is-hidden');
+            revealDeck(true);
+          }, 900);
+        }, 450);
       }
 
       // already unlocked this session → skip the gate
@@ -926,6 +933,39 @@ import Base from '../layouts/Base.astro';
       });
       form.addEventListener('input', function () {
         form.classList.remove('is-wrong');
+      });
+
+      // ----- iOS keyboard handling -----
+      // The layout viewport must never scroll: that scroll is what dragged the
+      // cloud background and logo up. Instead we pin the page at 0 and lift the
+      // whole gate (logo + field, as one unit) just enough to seat the field a
+      // few px above the keyboard. The clouds sit outside #gate, so they stay.
+      var vv = window.visualViewport;
+      function anchorAboveKeyboard() {
+        if (!vv || unlocked) return;
+        if (window.pageYOffset) window.scrollTo(0, 0);
+        var keyboard = window.innerHeight - vv.height - (vv.offsetTop || 0);
+        if (keyboard > 120 && document.activeElement === pass) {
+          // Measure the field's resting bottom (no lift), then translate the
+          // gate up by just the overlap so it sits ~16px above the keyboard.
+          gate.style.transform = 'none';
+          var bottom = form.getBoundingClientRect().bottom;
+          var lift = Math.min(0, (vv.offsetTop || 0) + vv.height - 16 - bottom);
+          gate.style.transform = 'translate3d(0,' + Math.round(lift) + 'px,0)';
+        } else {
+          gate.style.transform = '';
+        }
+      }
+      if (vv) {
+        vv.addEventListener('resize', anchorAboveKeyboard);
+        vv.addEventListener('scroll', anchorAboveKeyboard);
+      }
+      pass.addEventListener('focus', function () {
+        window.setTimeout(anchorAboveKeyboard, 60);
+      });
+      pass.addEventListener('blur', function () {
+        gate.style.transform = '';
+        window.scrollTo(0, 0);
       });
 
       // focus the field once it has faded in
