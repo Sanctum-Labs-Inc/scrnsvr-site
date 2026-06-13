@@ -313,12 +313,22 @@ function draw() {
   endShape(CLOSE);
 }
 
+// Taps that land on interactive UI (the logo, or a gate form / input / link)
+// must reach that element — never the sketch. Returning undefined from the
+// touch handlers (instead of false) keeps p5 from calling preventDefault, so
+// the browser can focus the input and show the keyboard on mobile.
+function isInteractiveTarget(e) {
+  return !!(e && e.target && e.target.closest &&
+    e.target.closest('#logo, #gate-form, input, textarea, select, button, a, label'));
+}
+
 function mousePressed(e) {
-  if (e && e.target && e.target.closest('#logo')) return;
+  if (isInteractiveTarget(e)) return;
   isNight = !isNight;
 }
 
-function touchStarted() {
+function touchStarted(e) {
+  if (isInteractiveTarget(e)) return; // allow default → input can focus
   if (touches.length > 0) {
     touchStartX = touches[0].x;
     touchStartY = touches[0].y;
@@ -328,7 +338,8 @@ function touchStarted() {
   return false;
 }
 
-function touchMoved() {
+function touchMoved(e) {
+  if (isInteractiveTarget(e)) return;
   if (touches.length > 0) {
     const dx = touches[0].x - touchStartX;
     const dy = touches[0].y - touchStartY;
@@ -340,9 +351,9 @@ function touchMoved() {
 }
 
 function touchEnded(e) {
+  if (isInteractiveTarget(e)) return; // allow default → input can focus
   const dt = millis() - touchStartTime;
   if (!didTouchMove && dt < TAP_TIME_THRESHOLD) {
-    if (e && e.target && e.target.closest('#logo')) return false;
     isNight = !isNight;
   }
   return false;
