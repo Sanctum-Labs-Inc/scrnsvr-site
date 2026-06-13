@@ -304,9 +304,16 @@
       // resume the AudioContext on the first user gesture (browsers block audio
       // until then). Calling userStartAudio here, not in the draw loop, means
       // iOS only has to resume the context once.
-      p.touchStarted = function () { if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
-      p.mousePressed = function () { if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
-      p.touchMoved = function () { return false; };
+      // Taps on interactive UI (deck arrows, links, form fields) must reach
+      // that element — returning false here makes p5 preventDefault, which would
+      // otherwise swallow the button's click on touch devices.
+      function onUI(e) {
+        return !!(e && e.target && e.target.closest &&
+          e.target.closest('button, a, input, textarea, select, label, [role="button"]'));
+      }
+      p.touchStarted = function (e) { if (onUI(e)) return; if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
+      p.mousePressed = function (e) { if (onUI(e)) return; if (ENABLE_AUDIO && p.userStartAudio) p.userStartAudio(); return false; };
+      p.touchMoved = function (e) { if (onUI(e)) return; return false; };
 
       p.windowResized = function () {
         // Ignore minor viewport changes (mobile URL/toolbar show/hide); only
