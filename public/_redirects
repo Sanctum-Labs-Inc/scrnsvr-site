@@ -1,4 +1,0 @@
-# Per-slide deck URLs (/deck/1, /deck/2, …) are one client-rendered page.
-# Serve the deck for any /deck/<n> so direct loads and refreshes work; the
-# page reads the slide number from the URL. 200 = rewrite (no redirect).
-/deck/* /deck/index.html 200

@@ -1,0 +1,1064 @@
+---
+---
+  <!-- Terminal pixel font for the gate + slide tags -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ===================== PAGE 1 — PASSWORD GATE ===================== -->
+  <!-- Clouds background (global p5 mode), identical to the landing page. -->
+  <script is:inline src="/main.js"></script>
+
+  <div id="gate">
+    <div class="logo-overlay">
+      <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 928.18 963.36">
+        <defs>
+          <style>.logo-yellow{fill:#fad953;}</style>
+        </defs>
+        <path d="M189.62,929.12c-.16,23.36-19.52,34.24-42.88,34.24s-42.88-11.68-42.88-33.28c0-1.92,1.12-3.2,2.88-3.36h12.64c2.08,0,3.36,1.28,3.36,3.52,0,6.72,5.76,15.04,24,15.04,16.16,0,23.68-5.44,23.68-16.16,0-9.28-7.52-14.88-23.84-16.32-22.4-1.92-40.96-8.64-40.96-31.36,0-21.28,20.16-32.96,39.52-32.96s40.64,10.24,40.64,33.28c0,1.92-1.12,3.52-2.88,3.52h-13.44c-1.76,0-2.88-1.6-2.88-3.52,0-8.8-9.6-15.84-21.44-15.84-11.04,0-20.32,7.04-20.32,15.52,0,8.96,8.8,11.68,22.24,13.12,24.48,2.56,42.56,10.08,42.56,34.56h0Z"/>
+        <path d="M309.46,922.24c-10.08,23.68-30.56,39.68-56.16,39.68-32.64,0-59.84-22.4-59.84-57.28,0-32,27.2-56.16,59.84-56,24.64,0,44.48,16,55.04,36.96.32.64-.32,1.44-1.28,1.44h-17.44c-1.12,0-1.76-.8-2.08-1.28-7.84-11.84-19.84-19.36-34.24-19.36-23.2,0-40.64,16.16-40.64,38.56s17.44,39.2,40.64,39.2c15.84,0,28.96-9.12,35.52-22.08.32-.64,1.12-1.28,2.24-1.28h16.8c1.12,0,2.08.32,1.6,1.44Z"/>
+        <path d="M334.1,897.28v60.8c0,2.72-.64,3.84-3.36,3.84h-12.32c-3.04,0-3.36-1.12-3.36-3.84v-60.8c0-23.68,20.96-47.36,49.44-48s49.44,24.32,49.44,48v14.88c0,2.72-.32,3.84-3.36,3.84h-12.32c-2.72,0-3.36-1.12-3.36-3.84v-14.88c0-16.8-15.2-30.4-30.4-30.4s-30.4,13.6-30.4,30.4h0Z"/>
+        <path d="M438.41,897.28v60.8c0,2.72-.64,3.84-3.36,3.84h-12.32c-3.04,0-3.36-1.12-3.36-3.84v-60.8c0-23.68,20.96-47.36,49.44-48s49.44,24.32,49.44,48v60.8c0,2.72-.32,3.84-3.36,3.84h-12.32c-2.72,0-3.36-1.12-3.36-3.84v-60.8c0-16.8-15.2-30.4-30.4-30.4s-30.4,13.6-30.4,30.4h0Z"/>
+        <path d="M608.49,929.12c-.16,23.36-19.52,34.24-42.88,34.24s-42.88-11.68-42.88-33.28c0-1.92,1.12-3.2,2.88-3.36h12.64c2.08,0,3.36,1.28,3.36,3.52,0,6.72,5.76,15.04,24,15.04,16.16,0,23.68-5.44,23.68-16.16,0-9.28-7.52-14.88-23.84-16.32-22.4-1.92-40.96-8.64-40.96-31.36,0-21.28,20.16-32.96,39.52-32.96s40.64,10.24,40.64,33.28c0,1.92-1.12,3.52-2.88,3.52h-13.44c-1.76,0-2.88-1.6-2.88-3.52,0-8.8-9.6-15.84-21.44-15.84-11.04,0-20.32,7.04-20.32,15.52,0,8.96,8.8,11.68,22.24,13.12,24.48,2.56,42.56,10.08,42.56,34.56h0Z"/>
+        <path d="M666.25,957.28l33.6-107.36h20l-35.2,112h-37.76l-35.04-112h19.84l33.76,107.36c.16.48.64.48.8,0Z"/>
+        <path d="M741.61,897.28v60.8c0,2.72-.64,3.84-3.36,3.84h-12.32c-3.04,0-3.36-1.12-3.36-3.84v-60.8c0-23.68,20.96-47.36,49.44-48s49.44,24.32,49.44,48v14.88c0,2.72-.32,3.84-3.36,3.84h-12.32c-2.72,0-3.36-1.12-3.36-3.84v-14.88c0-16.8-15.2-30.4-30.4-30.4s-30.4,13.6-30.4,30.4Z"/>
+        <path class="logo-yellow" d="M456.99,67.95c19.57-2.51,37.91,6.29,49.85,21.45,119.4,204.47,239.19,408.79,355.75,614.89,12.34,31.63-9.7,54.36-40.15,58.41H105.4c-25.3-2.47-47.52-23.12-42.14-49.87,118.75-210.07,240.2-419.29,362.34-627.43,7.56-8.4,20.07-15.99,31.38-17.44Z"/>
+        <path d="M461.84.03c88.73-1.87,124.87,94.86,161.81,159.26,71.97,125.48,144.38,250.7,216.34,376.19,24.64,42.98,54.51,87.72,75.35,132.37,35.97,77.06-6.79,145.58-88.07,157.07H101.6c-43.63-5.71-86.01-31.97-98-76.21-13.54-49.93,13.81-89.88,37.09-131.23C147.24,428.26,260.08,242.51,366.88,53.44,388.41,22.15,423.26.84,461.84.03ZM457.02,67.95c-11.31,1.45-23.82,9.03-31.38,17.44-122.15,208.15-243.59,417.37-362.34,627.43-5.38,26.75,16.84,47.4,42.14,49.87h717.04c30.46-4.05,52.49-26.77,40.15-58.41-116.56-206.1-236.35-410.41-355.75-614.89-11.94-15.16-30.28-23.96-49.85-21.45Z"/>
+        <path d="M640.11,583.58c-.64,93.16-77.85,136.55-171.01,136.55s-171.01-46.58-171.01-132.73c0-7.66,4.47-12.76,11.49-13.4h50.41c8.29,0,13.4,5.1,13.4,14.04,0,26.8,22.97,59.98,95.72,59.98,64.45,0,94.44-21.7,94.44-64.45,0-37.01-29.99-59.34-95.08-65.09-89.34-7.66-163.36-34.46-163.36-125.07,0-84.87,80.4-131.45,157.61-131.45s162.08,40.84,162.08,132.73c0,7.66-4.47,14.04-11.49,14.04h-53.6c-7.02,0-11.48-6.38-11.48-14.04,0-35.1-38.29-63.17-85.51-63.17-44.03,0-81.04,28.08-81.04,61.9,0,35.74,35.1,46.58,88.7,52.33,97.63,10.21,169.74,40.2,169.74,137.83Z"/>
+        <rect class="logo-yellow" x="297.58" y="549.17" width="90" height="141.87" transform="translate(488.44 -73.16) rotate(40.8)"/>
+        <path id="circle" d="M291.46,508.08c61.12-5.2,94.28,72.21,46.59,111.68-49.94,41.33-120.96-7.7-101.22-68.67,7.61-23.52,29.96-40.91,54.63-43.01Z"/>
+        <path d="M436.97,645.49c-12.06-2.32-31.54-9.53-39.39-15.9-6.14-4.99-13.04-7.28-19.32-1.86l-38.15,32.96c-4.9,5.07-4.94,11.85.07,17.65,15.76,18.25,57.9,29.94,77.97,36.07,8.61-23.59,8.02-46.32,18.82-68.91Z"/>
+      </svg>
+    </div>
+
+    <form id="gate-form" autocomplete="off" novalidate>
+      <input
+        id="gate-pass"
+        type="password"
+        placeholder="Password"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-label="Password"
+      />
+    </form>
+  </div>
+
+  <!-- ===================== PAGE 2+ — THE DECK ===================== -->
+  <div id="deck" aria-hidden="true">
+    <div id="eigenfield-bg" aria-hidden="true"></div>
+
+    <div class="deck-scroll" id="deck-scroll">
+
+      <!-- 00 — TITLE -->
+      <section class="slide slide--title">
+        <div class="slide-inner">
+          <p class="tag">SCRNSVR</p>
+          <h1 class="title-h">Welcome to <span class="hl">ScrnSvr</span></h1>
+          <p class="lede">Replaces compulsive phone-opening with attention-restoring generative art.</p>
+          <p class="byline">Clay Devlin &nbsp;·&nbsp; <a href="mailto:clay@scrnsvr.art">clay@scrnsvr.art</a></p>
+          <p class="scroll-hint">scroll ↓</p>
+        </div>
+      </section>
+
+      <!-- 01 — PROBLEM -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">01 / PROBLEM</p>
+          <h2 class="slide-h">We don't have a screen problem.<br />We have an <span class="hl">opening</span> problem.</h2>
+          <div class="stat-row">
+            <div class="stat-big">144<span class="stat-x">×</span></div>
+            <p class="stat-cap">times the average person opens their phone every day. Most of it isn't a decision — it's a reflex.</p>
+          </div>
+          <p class="body">The compulsive reach for the phone is the wedge. Intercept that single moment and you change the entire relationship.</p>
+        </div>
+      </section>
+
+      <!-- 02 — SOLUTION -->
+      <section class="slide">
+        <div class="slide-inner slide-inner--wide">
+          <p class="tag">02 / SOLUTION</p>
+          <h2 class="slide-h">Intercept the reflex. Reward it with <span class="hl">stillness</span>.</h2>
+          <div class="frames">
+            <figure class="frame">
+              <div class="phone">
+                <svg viewBox="0 0 120 240" class="phone-art" aria-hidden="true">
+                  <rect x="0" y="0" width="120" height="240" rx="20" fill="#0c0f14"/>
+                  <path d="M60 70 l30 14 v34 c0 26 -16 42 -30 50 c-14 -8 -30 -24 -30 -50 v-34 z" fill="none" stroke="#fad953" stroke-width="3.5" stroke-linejoin="round"/>
+                  <path d="M48 120 l9 10 18 -20" fill="none" stroke="#fad953" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <figcaption><span class="step">1</span> You open a blocked app. ScrnSvr shields it.</figcaption>
+            </figure>
+            <div class="frame-arrow" aria-hidden="true">→</div>
+            <figure class="frame">
+              <div class="phone">
+                <svg viewBox="0 0 120 240" class="phone-art" aria-hidden="true">
+                  <defs>
+                    <radialGradient id="g" cx="50%" cy="45%" r="60%">
+                      <stop offset="0%" stop-color="#ff6bdc"/>
+                      <stop offset="45%" stop-color="#a36bff"/>
+                      <stop offset="100%" stop-color="#0c0f14"/>
+                    </radialGradient>
+                  </defs>
+                  <rect x="0" y="0" width="120" height="240" rx="20" fill="url(#g)"/>
+                  <g fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.3">
+                    <circle cx="60" cy="108" r="22"/>
+                    <circle cx="60" cy="108" r="38"/>
+                    <circle cx="60" cy="108" r="54"/>
+                    <ellipse cx="60" cy="108" rx="54" ry="22"/>
+                    <ellipse cx="60" cy="108" rx="22" ry="54"/>
+                  </g>
+                </svg>
+              </div>
+              <figcaption><span class="step">2</span> A piece of generative art unfolds — never the same twice.</figcaption>
+            </figure>
+            <div class="frame-arrow" aria-hidden="true">→</div>
+            <figure class="frame">
+              <div class="phone">
+                <svg viewBox="0 0 120 240" class="phone-art" aria-hidden="true">
+                  <rect x="0" y="0" width="120" height="240" rx="20" fill="#0c0f14"/>
+                  <rect x="18" y="86" width="84" height="68" rx="12" fill="#15191f" stroke="rgba(242,237,226,0.25)" stroke-width="1.5"/>
+                  <text x="60" y="116" text-anchor="middle" fill="#f2ede2" font-family="Arial" font-size="11">attention</text>
+                  <text x="60" y="130" text-anchor="middle" fill="#f2ede2" font-family="Arial" font-size="11">restored</text>
+                  <rect x="34" y="138" width="52" height="13" rx="6.5" fill="#fad953"/>
+                </svg>
+              </div>
+              <figcaption><span class="step">3</span> A break modal lets you continue — or close the loop and walk away.</figcaption>
+            </figure>
+          </div>
+          <p class="body center">Same gesture, new ending. The phone becomes a place attention is returned, not spent.</p>
+        </div>
+      </section>
+
+      <!-- 03 — WHY NOW -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">03 / WHY NOW</p>
+          <h2 class="slide-h">The moment and the means have arrived together.</h2>
+          <ul class="points">
+            <li><strong>The backlash went mainstream.</strong> Screen-time anxiety is no longer fringe — it's a household conversation and a buying motive.</li>
+            <li><strong>The gate is rare, and we're through it.</strong> Apple's Family Controls entitlement is granted to almost no one. ScrnSvr has it.</li>
+            <li><strong>Incumbents punish; we restore.</strong> Today's tools grayscale your screen or lock you out. ScrnSvr gives attention back instead of taking the phone away.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 04 — PRODUCT / DEMO -->
+      <section class="slide">
+        <div class="slide-inner slide-inner--wide">
+          <p class="tag">04 / PRODUCT</p>
+          <h2 class="slide-h"><span class="hl">TestFlight is live.</span> It's real, and it's running today.</h2>
+          <div class="demo-row">
+            <div class="qr" aria-hidden="true">
+              <svg viewBox="0 0 100 100" width="150" height="150">
+                <rect width="100" height="100" fill="#0c0f14"/>
+                <g fill="#9be3b0">
+                  <rect x="8" y="8" width="22" height="22"/><rect x="14" y="14" width="10" height="10" fill="#0c0f14"/>
+                  <rect x="70" y="8" width="22" height="22"/><rect x="76" y="14" width="10" height="10" fill="#0c0f14"/>
+                  <rect x="8" y="70" width="22" height="22"/><rect x="14" y="76" width="10" height="10" fill="#0c0f14"/>
+                  <rect x="40" y="10" width="6" height="6"/><rect x="52" y="10" width="6" height="6"/><rect x="40" y="22" width="6" height="6"/>
+                  <rect x="40" y="40" width="6" height="6"/><rect x="52" y="40" width="6" height="6"/><rect x="64" y="40" width="6" height="6"/><rect x="76" y="40" width="6" height="6"/>
+                  <rect x="10" y="40" width="6" height="6"/><rect x="22" y="40" width="6" height="6"/>
+                  <rect x="40" y="52" width="6" height="6"/><rect x="64" y="52" width="6" height="6"/><rect x="88" y="52" width="6" height="6"/>
+                  <rect x="40" y="64" width="6" height="6"/><rect x="52" y="64" width="6" height="6"/><rect x="76" y="64" width="6" height="6"/>
+                  <rect x="52" y="76" width="6" height="6"/><rect x="64" y="76" width="6" height="6"/><rect x="40" y="88" width="6" height="6"/><rect x="76" y="88" width="6" height="6"/><rect x="88" y="88" width="6" height="6"/>
+                </g>
+              </svg>
+            </div>
+            <div class="demo-copy">
+              <p class="body">Watch a 60-second walkthrough of the shield → art → break loop on a real device.</p>
+              <p class="demo-links">
+                <a class="cta" href="#" data-edit="demo-video">▶ Watch the demo</a>
+                <a class="cta cta--ghost" href="#" data-edit="testflight">Join the TestFlight</a>
+              </p>
+              <p class="fineprint">Scan the code or follow the links — strongest card a solo founder can show.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 — MARKET -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">05 / MARKET</p>
+          <h2 class="slide-h">A large, fast-forming market — and everyone in it blocks.</h2>
+          <div class="stat-row">
+            <div class="stat-big">$10B+</div>
+            <p class="stat-cap">digital-wellness &amp; screen-time market, growing double digits as consumers pay to reclaim their attention.</p>
+          </div>
+          <div class="comp">
+            <p class="comp-label">The consumer comp set</p>
+            <div class="comp-chips">
+              <span>Opal</span><span>one sec</span><span>Brick</span>
+            </div>
+            <p class="body center"><strong>They block. We restore.</strong> Every incumbent makes the phone worse to use. ScrnSvr makes the moment better.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 — MOAT -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">06 / MOAT</p>
+          <h2 class="slide-h">Three things competitors can't copy this quarter.</h2>
+          <ul class="points">
+            <li><strong>The entitlement.</strong> Apple's Family Controls is real gatekeeping. It took a hard, solo approval process to get — and it's the API the whole intervention depends on.</li>
+            <li><strong>The science.</strong> Grounded in Attention Restoration Theory and neuroaesthetics, with active relationships to the researchers — not a vibe, a mechanism.</li>
+            <li><strong>The art.</strong> Original generative work, never the same twice. Non-commodity content that can't be scraped, cloned, or commoditized.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 07 — BUSINESS MODEL -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">07 / MODEL</p>
+          <h2 class="slide-h">Simple subscription. Premium by design.</h2>
+          <div class="price-row">
+            <div class="price-card">
+              <p class="price-amt">$8.99<span>/mo</span></p>
+              <p class="price-sub">monthly</p>
+            </div>
+            <div class="price-card price-card--feature">
+              <p class="price-amt">$59.99<span>/yr</span></p>
+              <p class="price-sub">annual · best value</p>
+            </div>
+          </div>
+          <p class="body center">Recurring revenue from a daily-use habit replacement. A future line — an NFC ritual object that carries your art into the physical world — is upside, not the core.</p>
+        </div>
+      </section>
+
+      <!-- 08 — TRACTION & ROADMAP -->
+      <section class="slide">
+        <div class="slide-inner slide-inner--wide">
+          <p class="tag">08 / TRACTION &amp; ROADMAP</p>
+          <h2 class="slide-h">Shipped, and accelerating.</h2>
+          <ol class="timeline">
+            <li class="done"><span class="dot"></span><strong>TestFlight live</strong> — full intervention loop running on real devices.</li>
+            <li class="done"><span class="dot"></span><strong>Waitlist open</strong> — collecting signups at scrnsvr.art.</li>
+            <li class="next"><span class="dot"></span><strong>AIP Summit demo</strong> — live in front of the right rooms.</li>
+            <li class="next"><span class="dot"></span><strong>App Store launch — Q3 2026</strong> — public availability.</li>
+            <li class="next"><span class="dot"></span><strong>Fellowship applications in flight</strong> — distribution and credibility tailwinds.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 09 — FOUNDER -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">09 / FOUNDER</p>
+          <h2 class="slide-h">An artist who can <span class="hl">ship</span>.</h2>
+          <p class="founder-name">Clay Devlin</p>
+          <ul class="points points--tight">
+            <li>Generative art practice since 2022; curation work with LUME and Subjective.</li>
+            <li>Took over the codebase and now owns it outright — design, art, and engineering in one hand.</li>
+            <li>Shipped through Apple's hardest entitlement process — Family Controls — solo.</li>
+          </ul>
+          <p class="body center">The rare founder who makes the thing <em>and</em> builds the thing. Taste and execution in the same person.</p>
+        </div>
+      </section>
+
+      <!-- 10 — THE ASK -->
+      <section class="slide">
+        <div class="slide-inner">
+          <p class="tag">10 / THE ASK</p>
+          <h2 class="slide-h">Raising <span class="hl">$750K</span> on an <span class="hl">$8M cap</span> SAFE.</h2>
+          <p class="proof">First SAFE already closed at this cap. ✓</p>
+          <ul class="points points--tight">
+            <li><strong>Launch</strong> — ship to the App Store and convert the waitlist.</li>
+            <li><strong>Growth experiments</strong> — find the repeatable acquisition loop.</li>
+            <li><strong>Runway</strong> — 18 months to launch, learn, and raise the seed from strength.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 11 — CLOSING -->
+      <section class="slide slide--closing">
+        <div class="slide-inner">
+          <div class="closing-mark" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 928.18 963.36">
+              <path class="cm-y" d="M456.99,67.95c19.57-2.51,37.91,6.29,49.85,21.45,119.4,204.47,239.19,408.79,355.75,614.89,12.34,31.63-9.7,54.36-40.15,58.41H105.4c-25.3-2.47-47.52-23.12-42.14-49.87,118.75-210.07,240.2-419.29,362.34-627.43,7.56-8.4,20.07-15.99,31.38-17.44Z"/>
+              <path class="cm-w" d="M461.84.03c88.73-1.87,124.87,94.86,161.81,159.26,71.97,125.48,144.38,250.7,216.34,376.19,24.64,42.98,54.51,87.72,75.35,132.37,35.97,77.06-6.79,145.58-88.07,157.07H101.6c-43.63-5.71-86.01-31.97-98-76.21-13.54-49.93,13.81-89.88,37.09-131.23C147.24,428.26,260.08,242.51,366.88,53.44,388.41,22.15,423.26.84,461.84.03ZM457.02,67.95c-11.31,1.45-23.82,9.03-31.38,17.44-122.15,208.15-243.59,417.37-362.34,627.43-5.38,26.75,16.84,47.4,42.14,49.87h717.04c30.46-4.05,52.49-26.77,40.15-58.41-116.56-206.1-236.35-410.41-355.75-614.89-11.94-15.16-30.28-23.96-49.85-21.45Z"/>
+              <path class="cm-w" d="M640.11,583.58c-.64,93.16-77.85,136.55-171.01,136.55s-171.01-46.58-171.01-132.73c0-7.66,4.47-12.76,11.49-13.4h50.41c8.29,0,13.4,5.1,13.4,14.04,0,26.8,22.97,59.98,95.72,59.98,64.45,0,94.44-21.7,94.44-64.45,0-37.01-29.99-59.34-95.08-65.09-89.34-7.66-163.36-34.46-163.36-125.07,0-84.87,80.4-131.45,157.61-131.45s162.08,40.84,162.08,132.73c0,7.66-4.47,14.04-11.49,14.04h-53.6c-7.02,0-11.48-6.38-11.48-14.04,0-35.1-38.29-63.17-85.51-63.17-44.03,0-81.04,28.08-81.04,61.9,0,35.74,35.1,46.58,88.7,52.33,97.63,10.21,169.74,40.2,169.74,137.83Z"/>
+              <path class="cm-y" d="M291.46,508.08c61.12-5.2,94.28,72.21,46.59,111.68-49.94,41.33-120.96-7.7-101.22-68.67,7.61-23.52,29.96-40.91,54.63-43.01Z"/>
+            </svg>
+          </div>
+          <h2 class="closing-h">Protect your attention.</h2>
+          <p class="byline byline--big"><a href="mailto:clay@scrnsvr.art">clay@scrnsvr.art</a></p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- progress dots (desktop) -->
+    <nav class="deck-nav" id="deck-nav" aria-label="Slides"></nav>
+
+    <!-- prev / next page arrows (primary nav on mobile) -->
+    <div class="deck-arrows" aria-hidden="false">
+      <button type="button" class="deck-arrow" id="deck-prev" aria-label="Previous page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="deck-counter" id="deck-counter" aria-live="polite">1 / 12</span>
+      <button type="button" class="deck-arrow" id="deck-next" aria-label="Next page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hidden Message background sketch — the same artwork as /about. -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+  <script is:inline src="/hidden-message.js"></script>
+
+  <style>
+    /* ---------------- GATE (page 1) ---------------- */
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      transition: opacity 1s ease-out, transform 0.25s ease-out;
+    }
+    #gate.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* The gate logo is decorative on the deck — the zoom is triggered ONLY by
+       entering the correct password, never by tapping the logo. */
+    #gate .logo-overlay svg {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    #gate-form {
+      position: fixed;
+      left: 50%;
+      top: calc(50% + 30vmin);
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      width: min(88vw, 340px);
+      /* Always visible — no opacity fade-in, so nothing can leave it hidden. */
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+    #gate-form.is-out { opacity: 0 !important; }
+
+    #gate-pass {
+      width: 100%;
+      background: rgba(6, 16, 10, 0.74);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 2px solid #6fdc92;
+      border-radius: 10px;
+      outline: none;
+      font-family: 'VT323', monospace;
+      font-size: 27px;
+      letter-spacing: 0.1em;
+      text-align: center;
+      color: #aef0c1;
+      -webkit-text-fill-color: #aef0c1;
+      caret-color: #aef0c1;
+      padding: 10px 18px 8px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55),
+                  0 0 22px rgba(90, 210, 130, 0.3),
+                  inset 0 0 14px rgba(90, 210, 130, 0.1);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    #gate-pass::placeholder {
+      /* muted digital green, kept clearly legible over the bright sky */
+      color: #7fd197;
+      -webkit-text-fill-color: #7fd197;
+      opacity: 1;
+      letter-spacing: 0.14em;
+    }
+    #gate-pass:focus {
+      border-color: #9bf0b6;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55),
+                  0 0 28px rgba(100, 220, 140, 0.4),
+                  inset 0 0 14px rgba(90, 210, 130, 0.12);
+    }
+    #gate-form.is-wrong #gate-pass {
+      border-color: rgba(240, 110, 110, 0.7);
+      color: #f0a0a0;
+      -webkit-text-fill-color: #f0a0a0;
+      animation: shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translateX(-50%) translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translateX(-50%) translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translateX(-50%) translate3d(-7px, 0, 0); }
+      40%, 60% { transform: translateX(-50%) translate3d(7px, 0, 0); }
+    }
+
+    /* ---------------- DECK (page 2+) ---------------- */
+    #deck {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1.2s ease-out;
+    }
+    #deck.is-live {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .deck-scroll {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .deck-scroll::-webkit-scrollbar { display: none; }
+
+    .slide {
+      scroll-snap-align: start;
+      min-height: 100svh;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(48px, 9vh, 96px) clamp(20px, 5vw, 48px);
+    }
+
+    .slide-inner {
+      position: relative;
+      width: 100%;
+      max-width: 620px;
+      color: #f2ede2;
+      font-family: 'Alte Haas Grotesk', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      /* The Hidden Message artwork is near-black with a subtle lattice, so the
+         scrim is kept light — just enough to seat the text — and legibility is
+         carried by the text-shadow below so the generative structure shows. */
+      background: radial-gradient(120% 120% at 50% 40%,
+                  rgba(4, 5, 9, 0.42) 0%,
+                  rgba(4, 5, 9, 0.20) 55%,
+                  rgba(4, 5, 9, 0) 100%);
+      border-radius: 24px;
+      padding: clamp(24px, 4vw, 44px);
+      text-align: left;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.78), 0 0 3px rgba(0, 0, 0, 0.55);
+    }
+    .slide-inner--wide { max-width: 880px; }
+
+    .tag {
+      font-family: 'VT323', monospace;
+      font-size: 19px;
+      letter-spacing: 0.22em;
+      color: #79c98f;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hl { color: #fad953; }
+
+    .slide-h {
+      font-weight: 700;
+      font-size: clamp(28px, 4.4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+      margin-bottom: 26px;
+    }
+
+    .body {
+      font-size: clamp(16px, 1.1vw + 12px, 19px);
+      line-height: 1.55;
+      color: rgba(242, 237, 226, 0.86);
+      margin-top: 18px;
+    }
+    .body.center { text-align: center; }
+
+    /* title slide */
+    .slide--title { text-align: center; }
+    .slide--title .slide-inner { text-align: center; max-width: 680px; }
+    .title-h {
+      font-weight: 700;
+      font-size: clamp(40px, 8vw, 78px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+    }
+    .lede {
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.4;
+      color: rgba(242, 237, 226, 0.92);
+      max-width: 540px;
+      margin: 0 auto 30px;
+    }
+    .byline {
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: rgba(242, 237, 226, 0.7);
+    }
+    .byline a { color: #fad953; text-decoration: none; }
+    .byline a:hover { text-decoration: underline; }
+    .byline--big { font-size: clamp(18px, 2.4vw, 24px); margin-top: 24px; }
+    .scroll-hint {
+      margin-top: 44px;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      color: rgba(121, 201, 143, 0.8);
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+    /* stat blocks */
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 3vw, 32px);
+      margin: 8px 0 6px;
+      flex-wrap: wrap;
+    }
+    .stat-big {
+      font-weight: 700;
+      font-size: clamp(64px, 12vw, 120px);
+      line-height: 0.9;
+      color: #fad953;
+      letter-spacing: -0.03em;
+    }
+    .stat-x { font-size: 0.5em; vertical-align: super; }
+    .stat-cap {
+      flex: 1;
+      min-width: 220px;
+      font-size: clamp(16px, 1.2vw + 11px, 20px);
+      line-height: 1.45;
+      color: rgba(242, 237, 226, 0.88);
+    }
+
+    /* bullet points */
+    .points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 6px;
+    }
+    .points li {
+      position: relative;
+      padding-left: 26px;
+      font-size: clamp(16px, 1.1vw + 12px, 19px);
+      line-height: 1.5;
+      color: rgba(242, 237, 226, 0.86);
+    }
+    .points li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #fad953;
+    }
+    .points li strong { color: #f2ede2; }
+    .points--tight { gap: 13px; }
+
+    /* solution frames */
+    .frames {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 14px;
+      margin: 10px 0 6px;
+      flex-wrap: wrap;
+    }
+    .frame {
+      flex: 1 1 200px;
+      max-width: 230px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .phone {
+      width: 108px;
+      border-radius: 22px;
+      padding: 5px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+    }
+    .phone-art { display: block; width: 100%; height: auto; border-radius: 18px; }
+    .frame figcaption {
+      font-size: 14.5px;
+      line-height: 1.4;
+      color: rgba(242, 237, 226, 0.82);
+      text-align: center;
+    }
+    .frame .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      margin-right: 4px;
+      border-radius: 50%;
+      background: #fad953;
+      color: #000;
+      font-weight: 700;
+      font-size: 12px;
+      vertical-align: middle;
+    }
+    .frame-arrow {
+      align-self: center;
+      color: rgba(251, 217, 83, 0.7);
+      font-size: 26px;
+    }
+
+    /* demo / QR */
+    .demo-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 4vw, 40px);
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .qr {
+      flex: 0 0 auto;
+      padding: 10px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(155, 227, 176, 0.3);
+      border-radius: 12px;
+      line-height: 0;
+    }
+    .demo-copy { flex: 1; min-width: 240px; }
+    .demo-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .cta {
+      display: inline-block;
+      background: #fad953;
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      border: 1px solid #000;
+      transition: filter 0.2s ease, transform 0.15s ease;
+    }
+    .cta:hover { filter: brightness(1.08); }
+    .cta:active { transform: scale(0.98); }
+    .cta--ghost {
+      background: transparent;
+      color: #f2ede2;
+      border: 1px solid rgba(242, 237, 226, 0.4);
+    }
+    .fineprint {
+      margin-top: 16px;
+      font-size: 13.5px;
+      color: rgba(242, 237, 226, 0.55);
+    }
+
+    /* market comp set */
+    .comp { margin-top: 26px; }
+    .comp-label {
+      font-family: 'VT323', monospace;
+      font-size: 17px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(121, 201, 143, 0.85);
+      margin-bottom: 12px;
+    }
+    .comp-chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .comp-chips span {
+      padding: 8px 18px;
+      border: 1px solid rgba(242, 237, 226, 0.25);
+      border-radius: 999px;
+      font-size: 15px;
+      color: rgba(242, 237, 226, 0.78);
+    }
+
+    /* pricing */
+    .price-row { display: flex; gap: 18px; margin: 18px 0 4px; flex-wrap: wrap; }
+    .price-card {
+      flex: 1 1 180px;
+      padding: 24px 22px;
+      border: 1px solid rgba(242, 237, 226, 0.18);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+    }
+    .price-card--feature {
+      border-color: rgba(251, 217, 83, 0.55);
+      background: rgba(251, 217, 83, 0.06);
+    }
+    .price-amt { font-weight: 700; font-size: clamp(30px, 5vw, 44px); color: #f2ede2; }
+    .price-amt span { font-size: 0.42em; font-weight: 400; color: rgba(242,237,226,0.6); }
+    .price-sub { margin-top: 6px; font-size: 14px; color: rgba(242, 237, 226, 0.6); letter-spacing: 0.04em; }
+
+    /* timeline */
+    .timeline {
+      list-style: none;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .timeline li {
+      position: relative;
+      padding-left: 30px;
+      font-size: clamp(16px, 1.1vw + 12px, 19px);
+      line-height: 1.45;
+      color: rgba(242, 237, 226, 0.84);
+    }
+    .timeline .dot {
+      position: absolute; left: 0; top: 0.45em;
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 2px solid #fad953;
+    }
+    .timeline li.done .dot { background: #fad953; }
+    .timeline li.next .dot { background: transparent; border-color: rgba(242,237,226,0.4); }
+    .timeline li strong { color: #f2ede2; }
+
+    .founder-name {
+      font-weight: 700;
+      font-size: clamp(22px, 3vw, 30px);
+      color: #fad953;
+      margin-bottom: 18px;
+    }
+
+    .proof {
+      display: inline-block;
+      font-family: 'VT323', monospace;
+      font-size: 19px;
+      letter-spacing: 0.06em;
+      color: #79c98f;
+      margin-bottom: 22px;
+    }
+
+    /* closing */
+    .slide--closing { text-align: center; }
+    .slide--closing .slide-inner { text-align: center; }
+    .closing-mark { width: clamp(100px, 18vw, 150px); margin: 0 auto 30px; }
+    .closing-mark svg { display: block; width: 100%; height: auto; }
+    .closing-mark .cm-y { fill: #fad953; }
+    .closing-mark .cm-w { fill: #f2ede2; }
+    .closing-h {
+      font-weight: 700;
+      font-size: clamp(34px, 6vw, 60px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    /* progress dots */
+    .deck-nav {
+      position: fixed;
+      right: clamp(12px, 2vw, 26px);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+    .deck-nav button {
+      width: 9px; height: 9px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(242, 237, 226, 0.4);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    }
+    .deck-nav button:hover { border-color: rgba(251, 217, 83, 0.8); }
+    .deck-nav button.is-active {
+      background: #fad953;
+      border-color: #fad953;
+      transform: scale(1.25);
+    }
+    @media (max-width: 640px) { .deck-nav { display: none; } }
+
+    /* prev / next arrows — shown on mobile, where the dot rail is hidden */
+    .deck-arrows {
+      position: fixed;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+      transform: translateX(-50%);
+      z-index: 5;
+      display: none;
+      align-items: center;
+      gap: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(6, 10, 14, 0.55);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(242, 237, 226, 0.14);
+    }
+    .deck-arrow {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(242, 237, 226, 0.28);
+      background: rgba(255, 255, 255, 0.04);
+      color: #f2ede2;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s ease, transform 0.12s ease, opacity 0.2s ease, border-color 0.2s ease;
+    }
+    .deck-arrow svg { width: 22px; height: 22px; }
+    .deck-arrow:active { transform: scale(0.92); background: rgba(251, 217, 83, 0.18); }
+    .deck-arrow[disabled] { opacity: 0.32; pointer-events: none; }
+    .deck-counter {
+      min-width: 52px;
+      text-align: center;
+      font-family: 'VT323', monospace;
+      font-size: 19px;
+      letter-spacing: 0.1em;
+      color: #79c98f;
+    }
+    @media (max-width: 640px) { .deck-arrows { display: flex; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint { animation: none; }
+    }
+
+    @media (orientation: portrait) and (max-width: 760px) {
+      .frame-arrow { transform: rotate(90deg); }
+      .frames { gap: 6px; }
+      .phone { width: 92px; }
+      .slide { padding-top: clamp(40px, 7vh, 72px); padding-bottom: clamp(40px, 7vh, 72px); }
+    }
+  </style>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function () {
+      var gate = document.getElementById('gate');
+      var form = document.getElementById('gate-form');
+      var pass = document.getElementById('gate-pass');
+      var deck = document.getElementById('deck');
+      var deckScroll = document.getElementById('deck-scroll');
+      var overlay = document.querySelector('.logo-overlay');
+      var logo = document.getElementById('logo');
+      var circle = document.getElementById('circle');
+      var PASSWORD = 'iloveyou';
+      var unlocked = false;
+
+      // ----- stop the clouds sketch (global p5 mode) and start hypertorus -----
+      function stopClouds() {
+        try { if (typeof window.noLoop === 'function') window.noLoop(); } catch (e) {}
+        var main = document.querySelector('body > main');
+        if (main) main.style.display = 'none';
+      }
+      var artStarted = false;
+      function startDeckArt() {
+        if (artStarted) return;
+        artStarted = true;
+        if (typeof window.startHiddenMessage === 'function') window.startHiddenMessage();
+      }
+
+      // ----- progress dots -----
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var nav = document.getElementById('deck-nav');
+      slides.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        b.addEventListener('click', function () {
+          s.scrollIntoView({ behavior: 'smooth' });
+        });
+        nav.appendChild(b);
+      });
+      var dots = Array.prototype.slice.call(nav.children);
+      var prevBtn = document.getElementById('deck-prev');
+      var nextBtn = document.getElementById('deck-next');
+      var counter = document.getElementById('deck-counter');
+      var total = slides.length;
+      var current = 0;
+
+      // Each slide has its own URL: /deck/<n> (1-based). The first slide
+      // (Welcome) is /deck/1.
+      function slideFromPath() {
+        var m = location.pathname.match(/\/deck\/(\d+)/);
+        if (!m) return 0;
+        return Math.max(0, Math.min(total - 1, parseInt(m[1], 10) - 1));
+      }
+      function setSlideURL(idx) {
+        var path = '/deck/' + (idx + 1);
+        if (location.pathname !== path) {
+          try { history.replaceState(null, '', path); } catch (e) {}
+        }
+      }
+      function setActive(idx, updateURL) {
+        current = idx;
+        dots.forEach(function (d, i) { d.classList.toggle('is-active', i === idx); });
+        if (prevBtn) prevBtn.disabled = (idx <= 0);
+        if (nextBtn) nextBtn.disabled = (idx >= total - 1);
+        if (counter) counter.textContent = (idx + 1) + ' / ' + total;
+        if (updateURL && unlocked) setSlideURL(idx);
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) setActive(slides.indexOf(e.target), true);
+          });
+        }, { root: deckScroll, threshold: 0.55 });
+        slides.forEach(function (s) { io.observe(s); });
+      }
+
+      function goTo(idx, smooth) {
+        idx = Math.max(0, Math.min(total - 1, idx));
+        slides[idx].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+        setActive(idx, true);
+      }
+      function go(delta) { goTo(current + delta, true); }
+
+      if (prevBtn) prevBtn.addEventListener('click', function () { if (unlocked) go(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { if (unlocked) go(1); });
+
+      // Keep the active slide (and URL) synced to free scrolling/swiping.
+      deckScroll.addEventListener('scroll', function () {
+        window.requestAnimationFrame(function () {
+          var idx = Math.round(deckScroll.scrollTop / window.innerHeight);
+          setActive(Math.max(0, Math.min(total - 1, idx)), true);
+        });
+      }, { passive: true });
+
+      document.addEventListener('keydown', function (e) {
+        if (!unlocked) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(1); }
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+        else if (e.key === 'Home') { e.preventDefault(); goTo(0, true); }
+        else if (e.key === 'End') { e.preventDefault(); goTo(total - 1, true); }
+      });
+
+      // Back/forward or a manually edited URL jumps to that slide.
+      window.addEventListener('popstate', function () {
+        if (unlocked) goTo(slideFromPath(), false);
+      });
+
+      // ----- reveal the deck (with or without the zoom) -----
+      function revealDeck(animate) {
+        deck.setAttribute('aria-hidden', 'false');
+        startDeckArt();
+        if (animate) {
+          // small delay (not rAF — throttled when the tab isn't painting) so the
+          // visibility/opacity transition has a frame to animate from.
+          window.setTimeout(function () { deck.classList.add('is-live'); }, 30);
+          // hand off from clouds after the crossfade has begun
+          window.setTimeout(stopClouds, 1300);
+        } else {
+          deck.style.transition = 'none';
+          deck.classList.add('is-live');
+          stopClouds();
+        }
+        unlocked = true;
+      }
+
+      // ----- the zoom (mirrors the landing page) -----
+      function triggerZoom() {
+        var circleRect = circle.getBoundingClientRect();
+        var cx = circleRect.left + circleRect.width / 2;
+        var cy = circleRect.top + circleRect.height / 2;
+        var circleRadius = Math.max(circleRect.width, circleRect.height) / 2;
+        var viewDiag = Math.sqrt(
+          window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight
+        );
+        var scale = (viewDiag / circleRadius) * 1.2;
+        overlay.style.transformOrigin = cx + 'px ' + cy + 'px';
+        overlay.style.transform = 'scale(' + scale + ')';
+      }
+
+      function unlock() {
+        if (unlocked) return;
+        unlocked = true;
+        try { sessionStorage.setItem('deckUnlocked', '1'); } catch (e) {}
+        // Drop the keyboard first and release the keyboard anchor, then let the
+        // viewport settle back to full height before the zoom is computed — so
+        // the zoom origin lands on the circle, not a keyboard-shrunk viewport.
+        pass.blur();
+        gate.style.transform = '';
+        form.classList.add('is-out');
+        window.setTimeout(function () {
+          triggerZoom();
+          // begin crossfade partway through the zoom so the bloom lands on the deck
+          window.setTimeout(function () {
+            gate.classList.add('is-hidden');
+            revealDeck(true);
+            // land on the first slide → /deck/1
+            setActive(0, true);
+          }, 900);
+        }, 450);
+      }
+
+      // already unlocked this session → skip the gate, open the slide in the URL
+      var already = false;
+      try { already = sessionStorage.getItem('deckUnlocked') === '1'; } catch (e) {}
+      if (already) {
+        gate.style.display = 'none';
+        revealDeck(false);
+        var target = slideFromPath();
+        window.setTimeout(function () { goTo(target, false); }, 50);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (unlocked) return;
+        if (pass.value.trim().toLowerCase() === PASSWORD) {
+          unlock();
+        } else {
+          form.classList.remove('is-wrong');
+          // reflow so the shake re-triggers on repeated wrong tries
+          void form.offsetWidth;
+          form.classList.add('is-wrong');
+          pass.value = '';
+        }
+      });
+      form.addEventListener('input', function () {
+        form.classList.remove('is-wrong');
+      });
+
+      // ----- iOS keyboard handling -----
+      // The layout viewport must never scroll: that scroll is what dragged the
+      // cloud background and logo up. Instead we pin the page at 0 and lift the
+      // whole gate (logo + field, as one unit) just enough to seat the field a
+      // few px above the keyboard. The clouds sit outside #gate, so they stay.
+      var vv = window.visualViewport;
+      function anchorAboveKeyboard() {
+        if (!vv || unlocked) return;
+        if (window.pageYOffset) window.scrollTo(0, 0);
+        var keyboard = window.innerHeight - vv.height - (vv.offsetTop || 0);
+        if (keyboard > 120 && document.activeElement === pass) {
+          // Measure the field's resting bottom (no lift), then translate the
+          // gate up by just the overlap so it sits ~16px above the keyboard.
+          gate.style.transform = 'none';
+          var bottom = form.getBoundingClientRect().bottom;
+          var lift = Math.min(0, (vv.offsetTop || 0) + vv.height - 16 - bottom);
+          gate.style.transform = 'translate3d(0,' + Math.round(lift) + 'px,0)';
+        } else {
+          gate.style.transform = '';
+        }
+      }
+      if (vv) {
+        vv.addEventListener('resize', anchorAboveKeyboard);
+        vv.addEventListener('scroll', anchorAboveKeyboard);
+      }
+      pass.addEventListener('focus', function () {
+        window.setTimeout(anchorAboveKeyboard, 60);
+      });
+      pass.addEventListener('blur', function () {
+        gate.style.transform = '';
+        window.scrollTo(0, 0);
+      });
+
+      // focus the field once it has faded in
+      window.setTimeout(function () { if (!already) pass.focus(); }, 1400);
+    });
+  </script>

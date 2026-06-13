@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Deck from '../../components/Deck.astro';
+
+// One static page per slide: /deck/1 … /deck/12. All render the same deck;
+// the client reads the slide number from the URL and opens it.
+export function getStaticPaths() {
+  return Array.from({ length: 12 }, (_, i) => ({ params: { n: String(i + 1) } }));
+}
+---
+<Base
+  title="scrnsvr — deck"
+  description="ScrnSvr replaces compulsive phone-opening with attention-restoring generative art."
+>
+  <Deck />
+</Base>
