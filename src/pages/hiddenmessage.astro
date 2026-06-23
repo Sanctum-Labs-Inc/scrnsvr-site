@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="scrnsvr"
+  description="A cognitive defense system using generative art."
+>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+  <script is:inline src="/hidden-message.js"></script>
+  <div id="eigenfield-bg" aria-hidden="true"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Boot the Eigenfield background sketch — artwork only, no overlay text.
+      if ((window as any).startHiddenMessage) (window as any).startHiddenMessage();
+    });
+  </script>
+</Base>
