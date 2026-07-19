@@ -1,0 +1,90 @@
+---
+const title = 'Shared artwork — scrnsvr';
+const description = 'An interactive generative artwork shared from scrnsvr.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="scrnsvr" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://scrnsvr.art/preview-2.jpg" />
+    <meta property="og:url" content="https://scrnsvr.art/clip/art" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main>
+      <iframe id="artwork" title="Shared scrnsvr artwork" allow="autoplay; fullscreen" hidden></iframe>
+      <section id="status" aria-live="polite">Loading artwork…</section>
+      <header id="metadata" hidden>
+        <p>scrnsvr</p>
+        <h1 id="title"></h1>
+        <span id="subtitle"></span>
+      </header>
+    </main>
+
+    <script is:inline>
+      const SUPABASE_URL = 'https://obpnkyunkleugwrlwjqh.supabase.co';
+      const SUPABASE_ANON_KEY =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9icG5reXVua2xldWd3cmx3anFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3NzU5NzAsImV4cCI6MjA3NDM1MTk3MH0.icMnKQrljtNYTQDEjR0OKivmf_miWi-VGbiKg0OybKM';
+      const artworkID = new URLSearchParams(window.location.search).get('id');
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const status = document.getElementById('status');
+      const frame = document.getElementById('artwork');
+      const metadata = document.getElementById('metadata');
+
+      async function loadArtwork() {
+        if (!artworkID || !uuidPattern.test(artworkID)) {
+          status.textContent = 'This share link is invalid.';
+          return;
+        }
+
+        const query = new URLSearchParams({
+          select: 'title,subtitle,html_url',
+          id: `eq.${artworkID}`,
+          is_active: 'eq.true',
+          limit: '1',
+        });
+
+        try {
+          const response = await fetch(`${SUPABASE_URL}/rest/v1/artworks?${query}`, {
+            headers: { apikey: SUPABASE_ANON_KEY },
+          });
+          const [artwork] = await response.json();
+          if (!response.ok || !artwork?.html_url) throw new Error('Unavailable artwork');
+
+          document.title = `${artwork.title} — scrnsvr`;
+          document.getElementById('title').textContent = artwork.title;
+          document.getElementById('subtitle').textContent = artwork.subtitle ?? '';
+          metadata.hidden = false;
+          frame.src = artwork.html_url;
+          frame.hidden = false;
+          status.hidden = true;
+        } catch {
+          status.textContent = 'This artwork is no longer available.';
+        }
+      }
+
+      loadArtwork();
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(html), :global(body), :global(main) { width: 100%; min-height: 100%; margin: 0; background: #000; }
+  main { position: relative; min-height: 100vh; overflow: hidden; color: #fff; font-family: ui-sans-serif, system-ui, sans-serif; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  #status { position: fixed; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: rgba(255, 255, 255, 0.75); }
+  #metadata { position: fixed; z-index: 1; top: max(24px, env(safe-area-inset-top)); left: 24px; right: 24px; pointer-events: none; text-shadow: 0 1px 12px #000; }
+  #metadata p { margin: 0 0 4px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+  #metadata h1 { margin: 0; font-size: 20px; }
+  #subtitle:empty { display: none; }
+  #subtitle { display: block; margin-top: 4px; color: rgba(255,255,255,0.72); font-size: 14px; }
+</style>
